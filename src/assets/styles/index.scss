@@ -1,0 +1,49 @@
+@import './variables.module.scss';
+@import './transition.scss';
+@import './sidebar.scss';
+@import './elementplus.scss';
+
+
+body {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  }
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  
+html,
+body,
+#app 
+{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+.text-center {
+  text-align: center
+}
+
+
+div:focus {
+  outline: none;
+}
+
+//main-container全局样式
+.app-container {
+  padding: 20px;
+}
