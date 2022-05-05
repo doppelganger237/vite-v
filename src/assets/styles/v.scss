@@ -1,0 +1,28 @@
+
+/** 表格布局 **/
+.pagination-container {
+	// position: relative;
+	height: 25px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+	padding: 10px 20px !important;
+}
+
+.pagination-container .el-pagination {
+	right: 0;
+	position: absolute;
+}
+
+@media ( max-width : 768px) {
+    .pagination-container .el-pagination > .el-pagination__jump {
+      display: none !important;
+    }
+    .pagination-container .el-pagination > .el-pagination__sizes {
+      display: none !important;
+    }
+  }
+
+  .card-box {
+    margin-bottom: 10px;
+  }
+  

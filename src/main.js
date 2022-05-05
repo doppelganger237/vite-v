@@ -1,15 +1,19 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+
+// TODO 路由访问权限控制
+import "./permission";
 // import store from './store'
-import { createPinia } from 'pinia'
+import { createPinia } from "pinia";
 
+import "virtual:svg-icons-register";
+import "@/assets/styles/index.scss"; // global css
 
-import 'virtual:svg-icons-register'
-import '@/assets/styles/index.scss' // global css
+import "@purge-icons/generated"; // <-- This
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
-app.use(createPinia())
-app.mount('#app')
+app.use(router);
+app.use(createPinia());
+app.mount("#app");

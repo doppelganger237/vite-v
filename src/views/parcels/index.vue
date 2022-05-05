@@ -1,55 +1,73 @@
 <template>
+  <div class="app-container">
+    <el-row :gutter="20">
+      <el-col :xs="24" :sm="24" :md="12" :lg="8">
+        <el-card class="card-box">
+          <template #header>
+            <div class="clearfix">
+              <span>添加包裹</span>
+            </div>
+          </template>
+          <div>
+            <el-form :model="form" label-width="120px">
+              <el-form-item label="取件码">
+                <el-input v-model="form.name" />
+              </el-form-item>
+              <el-form-item label="取件区域">
+                <el-select v-model="form.region" placeholder="选择取件区域">
+                  <el-option label="8号驿站" value="8" />
+                  <el-option label="20号抑制" value="20" />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="取件时间">
+                <el-date-picker
+                  v-model="form.date1"
+                  type="date"
+                  placeholder="Pick a date"
+                  style="width: 100%"
+                />
+              </el-form-item>
 
-   <div class="app-container">
-  <el-table :data="tableData" style="width: 100%">
-  
-    <el-table-column prop="id" label="编号"/>
-    <el-table-column prop="location" label="地址" />
-    <el-table-column prop="code" label="取件码" />
-    <el-table-column prop="createTime" label="创建时间" />
+              <el-form-item label="备注">
+                <el-input
+                  v-model="form.desc"
+                  type="textarea"
+                  maxlength="30"
+                  show-word-limit
+                />
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="onSubmit">提交</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-card>
+      </el-col>
 
-    
-    <el-table-column prop="status" label="状态"  >
-
-            <template #default="scope">
-        <el-tag
-          :type="scope.row.status === 0 ? '' : 'success'"
-          disable-transitions
-          >{{ scope.row.status === 0 ? '未取件' : '已经取件' }}</el-tag
-        >
-      </template>
-    </el-table-column>
-
-    
-    
-  </el-table>
+      <el-col :xs="24" :sm="24" :md="12" :lg="16">
+        <el-card class="card-box">
+          <template #header>
+            <div class="clearfix">
+              <span>我的包裹</span>
+            </div>
+          </template>
+          <div class="body"></div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
-<route lang="yaml">
-meta:
-  title: '包裹列表'
-  icon: 'dashboard'
-</route>
 
 <script setup>
-
-import { getParcelList } from '@/api/parcels';
-const tableData = ref([])
-
-//响应式数据,复杂的数据结果
-const queryParams = reactive({
-  current: 1,
-  size: 2
-})
-
-
-
-const getList =() => {
-      getParcelList(queryParams).then(res => {
-        tableData.value = res.data.rows
-      })
-}
-
-getList()
-
+// do not use same name with ref
+const form = reactive({
+  name: "",
+  region: "",
+  date1: "",
+  date2: "",
+  delivery: false,
+  type: [],
+  resource: "",
+  desc: "",
+});
 </script>

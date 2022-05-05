@@ -1,29 +1,35 @@
 <template>
   <div class="navbar">
-    
-    <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      id="hamburger-container"
+      :is-active="appStore.sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
-  
 
     <div class="right-menu">
       <template v-if="appStore.device !== 'mobile'">
-
-
         <Screenfull id="screenfull" class="right-menu-item hover-effect" />
-
       </template>
 
       <div class="avatar-container">
-        <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
+        <el-dropdown
+          class="right-menu-item hover-effect"
+          trigger="click"
+          @command="handleCommand"
+        >
           <div class="avatar-wrapper">
             <img :src="avatar" class="user-avatar" />
             <el-icon><i-ep-caret-bottom /></el-icon>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              
-              <el-dropdown-item command="setLayout">
-                <span>布局设置</span>
+              <el-dropdown-item
+                v-if="roles.includes('admin')"
+                command="adminMode"
+              >
+                <span>管理员模式</span>
               </el-dropdown-item>
               <el-dropdown-item divided command="logout">
                 <span>退出登录</span>
@@ -32,20 +38,23 @@
           </template>
         </el-dropdown>
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
+const appStore = useAppStore();
+const userStore = useUserStore();
 
+const roles = computed(() => userStore.roles);
+console.log(roles.value);
 
-const appStore = useAppStore()
-
-const avatar = ref('http://vue.ruoyi.vip/static/img/profile.473f5971.jpg')
+const avatar = ref(
+  "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
+);
 
 function toggleSideBar() {
-  appStore.toggleSideBar()
+  appStore.toggleSideBar();
 }
 
 function handleCommand(command) {
@@ -59,20 +68,22 @@ function handleCommand(command) {
 }
 
 function logout() {
-  ElMessageBox.confirm('确定注销吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    //TODO
-      location.href = '/index';
-  }).catch(() => { });
+  ElMessageBox.confirm("确定注销吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      //TODO
+      userStore.logout().then(() => {
+        location.href = "/";
+      });
+    })
+    .catch(() => {});
 }
-
-
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .navbar {
   height: 50px;
   overflow: hidden;

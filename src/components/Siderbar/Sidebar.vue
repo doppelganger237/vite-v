@@ -1,6 +1,9 @@
 <template>
-  <div class="has-logo" :style="{ backgroundColor:  variables.menuLightBackground }">
-      <SidebarLogo collapse="isCollapse" />
+  <div
+    class="has-logo"
+    :style="{ backgroundColor: variables.menuLightBackground }"
+  >
+    <SidebarLogo :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -11,10 +14,10 @@
         mode="vertical"
       >
         <SidebarItem
-          v-for="(route, index) in sidebarRouters"
-          :key="route.path + index"
-          :item="route"
-          :base-path="route.path"
+          v-for="(r, index) in sidebarRouters"
+          :key="r.path + index"
+          :item="r"
+          :base-path="r.path"
         />
       </el-menu>
     </el-scrollbar>
@@ -22,14 +25,16 @@
 </template>
 
 <script setup>
-import variables from '@/assets/styles/variables.module.scss'
+import variables from "@/assets/styles/variables.module.scss";
+import { computed } from "vue";
 
 const route = useRoute();
-const appStore = useAppStore()
-const router = useRouter();
+const appStore = useAppStore();
+const permissionStore = usePermissionStore();
 
 // 所有路由
-const sidebarRouters =  router.options.routes
+const sidebarRouters = computed(() => permissionStore.sidebarRouters);
+console.log(sidebarRouters.value);
 
 const isCollapse = computed(() => !appStore.sidebar.opened);
 
@@ -40,11 +45,8 @@ const activeMenu = computed(() => {
     return meta.activeMenu;
   }
   return path;
-})
-
+});
 </script>
-
-
 
 <style lang="scss" scoped>
 .sidebarLogoFade-enter-active {

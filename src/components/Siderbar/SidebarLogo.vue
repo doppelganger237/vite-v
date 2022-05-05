@@ -1,32 +1,51 @@
 <template>
-  <div class="sidebar-logo-container" :class="{ 'collapse': collapse }" :style="{ backgroundColor:  variables.menuLightBackground }">
+  <div
+    class="sidebar-logo-container"
+    :class="{ collapse: collapse }"
+    :style="{ backgroundColor: variables.menuLightBackground }"
+  >
     <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
+      <router-link
+        v-if="collapse"
+        key="collapse"
+        class="sidebar-logo-link"
+        to="/"
+      >
         <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 v-else class="sidebar-title" :style="{ color:  variables.logoLightTitleColor }">{{ title }}</h1>
+        <h1
+          v-else
+          class="sidebar-title"
+          :style="{ color: variables.logoLightTitleColor }"
+        >
+          {{ title }}
+        </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
         <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 class="sidebar-title" :style="{ color: variables.logoLightTitleColor }">{{ title }}</h1>
+        <h1
+          class="sidebar-title"
+          :style="{ color: variables.logoLightTitleColor }"
+        >
+          {{ title }}
+        </h1>
       </router-link>
     </transition>
   </div>
 </template>
 
 <script setup>
-import variables from '@/assets/styles/variables.module.scss'
-//import logo from '@/assets/logo/logo.png'
+import variables from "@/assets/styles/variables.module.scss";
+import logo from "@/assets/logo/logo.png";
 
 defineProps({
   collapse: {
     type: Boolean,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const title = ref('校园Hooli');
-const appStore = useAppStore()
-
+const title = ref("校园Hooli");
+const appStore = useAppStore();
 </script>
 
 <style lang="scss" scoped>
