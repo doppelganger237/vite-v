@@ -28,6 +28,6 @@ meta:
   icon: "dashboard"
 </route>
 
-<script setup>
+<script setup lang="ts">
 const router = useRouter();
 </script>

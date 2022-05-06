@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <section class="app-main">
     <router-view v-slot="{ Component, route }">
@@ -7,8 +9,6 @@
     </router-view>
   </section>
 </template>
-
-<script setup></script>
 
 <style lang="scss" scoped>
 .app-main {

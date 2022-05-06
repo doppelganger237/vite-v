@@ -1,11 +1,43 @@
+<script setup>
+const appStore = useAppStore()
+const userStore = useUserStore()
+
+const { avatar, roles, id } = storeToRefs(userStore)
+const profileUrl = `/users/${id.value}`
+
+function toggleSideBar() {
+  appStore.toggleSideBar()
+}
+
+function handleCommand(command) {
+  switch (command) {
+    case 'logout':
+      logout()
+      break
+    default:
+      break
+  }
+}
+
+function logout() {
+  ElMessageBox.confirm('确定注销吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      userStore.logout().then(() => {
+        location.href = '/'
+      })
+    })
+    .catch(() => { })
+}
+</script>
+
 <template>
   <div class="navbar">
-    <hamburger
-      id="hamburger-container"
-      :is-active="appStore.sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
+    <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container"
+      @toggleClick="toggleSideBar" />
     <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
@@ -14,14 +46,12 @@
       </template>
 
       <div class="avatar-container">
-        <el-dropdown
-          class="right-menu-item hover-effect"
-          trigger="click"
-          @command="handleCommand"
-        >
+        <el-dropdown class="right-menu-item hover-effect" trigger="click" @command="handleCommand">
           <div class="avatar-wrapper">
-            <img :src="avatar" class="user-avatar" />
-            <el-icon><i-ep-caret-bottom /></el-icon>
+            <img :src="avatar" class="user-avatar">
+            <el-icon>
+              <i-ep-caret-bottom />
+            </el-icon>
           </div>
           <template #dropdown>
             <el-dropdown-menu>
@@ -29,10 +59,7 @@
                 <el-dropdown-item>个人中心</el-dropdown-item>
               </router-link>
 
-              <el-dropdown-item
-                v-if="roles.includes('admin')"
-                command="adminMode"
-              >
+              <el-dropdown-item v-if="roles.includes('admin')" command="adminMode">
                 <span>管理员模式</span>
               </el-dropdown-item>
               <el-dropdown-item divided command="logout">
@@ -45,42 +72,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-const appStore = useAppStore();
-const userStore = useUserStore();
-
-const { avatar, roles, id } = storeToRefs(userStore);
-const profileUrl = "/users/" + id.value;
-
-function toggleSideBar() {
-  appStore.toggleSideBar();
-}
-
-function handleCommand(command) {
-  switch (command) {
-    case "logout":
-      logout();
-      break;
-    default:
-      break;
-  }
-}
-
-function logout() {
-  ElMessageBox.confirm("确定注销吗？", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning",
-  })
-    .then(() => {
-      userStore.logout().then(() => {
-        location.href = "/";
-      });
-    })
-    .catch(() => {});
-}
-</script>
 
 <style lang="scss" scoped>
 .navbar {

@@ -1,3 +1,73 @@
+<script setup lang="ts">
+// const tableData = ref([])
+import { getReports, healthReport } from '@/api/healthreports'
+import { isSameDay, isToday } from '@/utils/date'
+
+// 打卡表格
+const dialogFormVisible = ref(false)
+const formLabelWidth = '80px'
+const reportForm = reactive({
+  name: '',
+})
+const reportRef = ref()
+
+// 展示信息
+const welcomeMsg = ref('')
+const hasReportedToday = ref(false)
+
+const reportedDate = reactive<any>([])
+function getReportInfo() {
+  // hasReported().then((res) => {
+  //   hasReportedToday.value = res.data;
+  //   welcomeMsg.value = "今日你" + (res.data ? "已经" : "还未") + "打卡";
+  // });
+  getReports().then((res) => {
+    if (res.data && res.data.length > 0) {
+      if (isToday(res.data[0])) {
+        hasReportedToday.value = true
+        welcomeMsg.value = '今日你已经打卡!'
+      }
+      else {
+        welcomeMsg.value = '今日你还未打卡!'
+      }
+      reportedDate.push(...res.data)
+    }
+    else {
+      welcomeMsg.value = '开启你的第一次打卡!'
+    }
+  })
+}
+
+function isDateReported(day) {
+  let reported = false
+  reportedDate.forEach((d) => {
+    if (isSameDay(d, day))
+      reported = true
+  })
+  return reported
+}
+
+function submitForm() {
+  reportRef.value.validate((valid) => {
+    if (valid) {
+      healthReport().then(() => {
+        dialogFormVisible.value = false
+
+        ElMessage({
+          type: 'info',
+          message: '打卡成功',
+        })
+        ElMessage.success('打卡成功')
+        getReportInfo()
+      })
+    }
+  })
+}
+
+const value = ref(new Date())
+getReportInfo()
+</script>
+
 <template>
   <div class="app-container">
     <el-row :gutter="20">
@@ -12,12 +82,9 @@
             <p>{{ welcomeMsg }}</p>
 
             <p>
-              <el-button
-                size="large"
-                :disabled="hasReportedToday"
-                @click="dialogFormVisible = true"
-                >点击打卡</el-button
-              >
+              <el-button size="large" :disabled="hasReportedToday" @click="dialogFormVisible = true">
+                点击打卡
+              </el-button>
             </p>
           </div>
         </el-card>
@@ -74,68 +141,6 @@
     </el-dialog>
   </div>
 </template>
-
-<script setup>
-//const tableData = ref([])
-import { healthReport, hasReported, getReports } from "@/api/healthreports";
-import { isSameDay, isToday } from "@/utils/date";
-
-// 打卡表格
-const dialogFormVisible = ref(false);
-const formLabelWidth = "80px";
-const reportForm = reactive({
-  name: "",
-});
-const reportRef = ref();
-
-// 展示信息
-const welcomeMsg = ref("");
-const hasReportedToday = ref(false);
-
-const reportedDate = reactive([]);
-function getReportInfo() {
-  // hasReported().then((res) => {
-  //   hasReportedToday.value = res.data;
-  //   welcomeMsg.value = "今日你" + (res.data ? "已经" : "还未") + "打卡";
-  // });
-  getReports().then((res) => {
-    if (res.data && res.data.length > 0) {
-      if (isToday(res.data[0])) {
-        hasReportedToday.value = true;
-        welcomeMsg.value = "今日你已经打卡!";
-      } else {
-        welcomeMsg.value = "今日你还未打卡!";
-      }
-      reportedDate.push(...res.data);
-    } else {
-      welcomeMsg.value = "开启你的第一次打卡!";
-    }
-  });
-}
-
-function isDateReported(day) {
-  let reported = false;
-  reportedDate.forEach((d) => {
-    if (isSameDay(d, day)) reported = true;
-  });
-  return reported;
-}
-
-function submitForm() {
-  reportRef.value.validate((valid) => {
-    if (valid) {
-      healthReport().then(() => {
-        dialogFormVisible.value = false;
-        ElMessage.success("打卡成功");
-        getReportInfo();
-      });
-    }
-  });
-}
-
-const value = ref(new Date());
-getReportInfo();
-</script>
 
 <style scoped>
 .el-card {

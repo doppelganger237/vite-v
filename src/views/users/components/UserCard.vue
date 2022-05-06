@@ -65,7 +65,7 @@
   </el-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const prop = defineProps({
   user: {
     type: Object,

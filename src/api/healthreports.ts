@@ -3,7 +3,7 @@ import request from "@/utils/request";
 const base_url = "/healthreports";
 
 console.log(import.meta);
-export function getAllReports(query) {
+export function getAllReports(query: { current: number; size: number; }) {
   return request({
     url: `${base_url}/all?current=${query.current}&size=${query.size}`,
     method: "get",

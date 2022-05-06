@@ -1,12 +1,71 @@
+<script setup lang="ts">
+import Cookies from 'js-cookie'
+import { decrypt, encrypt } from '@/utils/jsencrypt' // rememberMe-password加密
+const loading = ref(false)
+
+const router = useRouter()
+const loginForm = reactive({
+  username: '',
+  password: '',
+  rememberme: false,
+})
+
+const userStore = useUserStore()
+
+const rules = {
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+}
+const loginRef = ref()
+const redirect = ref('/')
+function submitForm() {
+  loginRef.value.validate((valid) => {
+    if (valid) {
+      loading.value = true
+      if (loginForm.rememberme) {
+        Cookies.set('username', loginForm.username, { expires: 30 })
+        Cookies.set('password', encrypt(loginForm.password), {
+          expires: 30,
+        })
+        Cookies.set('rememberme', true, { expires: 30 })
+      }
+      else {
+        // 否则移除
+        Cookies.remove('username')
+        Cookies.remove('password')
+        Cookies.remove('rememberme')
+      }
+      userStore
+        .login(loginForm)
+        .then(() => {
+          router.push({ path: redirect.value || '/' })
+        })
+        .catch((err) => {
+          loading.value = false
+        })
+    }
+  })
+}
+
+function getCookie() {
+  const username = Cookies.get('username')
+  const password = Cookies.get('password')
+  const rememberme = Cookies.get('rememberme')
+  loginForm.username = username === undefined ? loginForm.username : username
+  loginForm.password
+    = password === undefined ? loginForm.password : decrypt(password)
+  loginForm.rememberme = rememberme === undefined ? false : Boolean(rememberme)
+}
+
+getCookie()
+</script>
+
 <template>
   <div class="login">
-    <el-form
-      ref="loginRef"
-      :model="loginForm"
-      :rules="rules"
-      class="login-form"
-    >
-      <h3 class="title">用户登录</h3>
+    <el-form ref="loginRef" :model="loginForm" :rules="rules" class="login-form">
+      <h3 class="title">
+        用户登录
+      </h3>
       <el-form-item prop="username">
         <el-input v-model="loginForm.username" type="text" placeholder="用户名">
           <template #prepend>
@@ -17,13 +76,7 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
-          v-model="loginForm.password"
-          type="password"
-          placeholder="密码"
-          show-password
-          @keyup.enter="submitForm"
-        >
+        <el-input v-model="loginForm.password" type="password" placeholder="密码" show-password @keyup.enter="submitForm">
           <template #prepend>
             <el-icon>
               <i-ep-lock />
@@ -32,19 +85,11 @@
         </el-input>
       </el-form-item>
 
-      <el-checkbox
-        v-model="loginForm.rememberme"
-        style="margin: 0px 0px 25px 0px"
-        >记住密码</el-checkbox
-      >
+      <el-checkbox v-model="loginForm.rememberme" style="margin: 0px 0px 25px 0px">
+        记住密码
+      </el-checkbox>
       <el-form-item style="width: 100%">
-        <el-button
-          size="default"
-          type="primary"
-          style="width: 100%"
-          :loading="loading"
-          @click="submitForm"
-        >
+        <el-button size="default" type="primary" style="width: 100%" :loading="loading" @click="submitForm">
           <span v-if="!loading">登 录</span>
           <span v-else>登 录 中...</span>
         </el-button>
@@ -56,72 +101,12 @@
     </div>
   </div>
 </template>
+
 <route lang="yaml">
 hidden: true
 meta:
   layout: single
 </route>
-
-<script setup>
-import Cookies from "js-cookie";
-import { encrypt, decrypt } from "@/utils/jsencrypt"; //rememberMe-password加密
-const loading = ref(false);
-
-const router = useRouter();
-const loginForm = reactive({
-  username: "",
-  password: "",
-  rememberme: false,
-});
-
-const userStore = useUserStore();
-
-const rules = {
-  username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-};
-const loginRef = ref();
-const redirect = ref("/");
-function submitForm() {
-  loginRef.value.validate((valid) => {
-    if (valid) {
-      loading.value = true;
-      if (loginForm.rememberme) {
-        Cookies.set("username", loginForm.username, { expires: 30 });
-        Cookies.set("password", encrypt(loginForm.password), {
-          expires: 30,
-        });
-        Cookies.set("rememberme", true, { expires: 30 });
-      } else {
-        // 否则移除
-        Cookies.remove("username");
-        Cookies.remove("password");
-        Cookies.remove("rememberme");
-      }
-      userStore
-        .login(loginForm)
-        .then(() => {
-          router.push({ path: redirect.value || "/" });
-        })
-        .catch((err) => {
-          loading.value = false;
-        });
-    }
-  });
-}
-
-function getCookie() {
-  const username = Cookies.get("username");
-  const password = Cookies.get("password");
-  const rememberme = Cookies.get("rememberme");
-  loginForm.username = username === undefined ? loginForm.username : username;
-  loginForm.password =
-    password === undefined ? loginForm.password : decrypt(password);
-  loginForm.rememberme = rememberme === undefined ? false : Boolean(rememberme);
-}
-
-getCookie();
-</script>
 
 <style rel="stylesheet/scss" lang="scss">
 .login {

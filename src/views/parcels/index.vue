@@ -1,3 +1,67 @@
+<script setup lang="ts">
+import { addParcel, deleteParcel, getHisParcels } from '@/api/parcels'
+const tableData = ref([])
+const total = ref(0)
+const loading = ref(true)
+const formRef = ref()
+const data = reactive({
+  form: {
+    date: new Date(),
+  },
+})
+const { form } = toRefs(data)
+
+// 响应式数据,复杂的数据结果
+const queryParams = reactive({
+  current: 1,
+  size: 10,
+})
+
+const getList = () => {
+  loading.value = true
+  getHisParcels(queryParams).then((res) => {
+    tableData.value = res.data.rows
+    total.value = res.data.total
+    loading.value = false
+  })
+}
+
+function onSubmit() {
+  formRef.value.validate((valid) => {
+    if (valid) {
+      addParcel(form.value).then(() => {
+        ElMessage.success('添加包裹成功!')
+        reset()
+        getList()
+      })
+    }
+  })
+}
+function handleDelete(i, r) {
+  ElMessageBox.confirm('确定删除吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      deleteParcel(r.id)
+        .then(() => {
+          ElMessage.success('删除包裹成功!')
+          getList()
+        })
+        .catch(() => { })
+    })
+    .catch(() => { })
+
+  console.log(i, r)
+}
+
+function reset() {
+  formRef.value.resetFields()
+}
+getList()
+</script>
+
 <template>
   <div class="app-container">
     <el-row :gutter="20">
@@ -21,16 +85,12 @@
               </el-form-item>
 
               <el-form-item label="备注" prop="description">
-                <el-input
-                  v-model="form.description"
-                  type="textarea"
-                  maxlength="30"
-                  show-word-limit
-                  placeholder="送到哪"
-                />
+                <el-input v-model="form.description" type="textarea" maxlength="30" show-word-limit placeholder="送到哪" />
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="onSubmit">提交</el-button>
+                <el-button type="primary" @click="onSubmit">
+                  提交
+                </el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -53,11 +113,9 @@
 
               <el-table-column prop="status" label="状态">
                 <template #default="scope">
-                  <el-tag
-                    :type="scope.row.status === 0 ? '' : 'success'"
-                    disable-transitions
-                    >{{ scope.row.status === 0 ? "未取件" : "已取件" }}</el-tag
-                  >
+                  <el-tag :type="scope.row.status === 0 ? '' : 'success'" disable-transitions>
+                    {{ scope.row.status === 0 ? "未取件" : "已取件" }}
+                  </el-tag>
                 </template>
               </el-table-column>
               <el-table-column label="操作" width="150" align="center">
@@ -67,89 +125,17 @@
                     @click="handleEdit(scope.$index, scope.row)"
                     >编辑</el-button
                   > -->
-                  <el-button
-                    size="small"
-                    type="danger"
-                    @click="handleDelete(scope.$index, scope.row)"
-                    >删除</el-button
-                  >
+                  <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
+                    删除
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
-            <pagination
-              v-show="total > 0"
-              v-model:page="queryParams.current"
-              v-model:limit="queryParams.size"
-              :total="total"
-              @pagination="getList"
-            />
+            <pagination v-show="total > 0" v-model:page="queryParams.current" v-model:limit="queryParams.size"
+              :total="total" @pagination="getList" />
           </div>
         </el-card>
       </el-col>
     </el-row>
   </div>
 </template>
-
-<script setup>
-import { addParcel, getHisParcels, deleteParcel } from "@/api/parcels";
-const tableData = ref([]);
-const total = ref(0);
-const loading = ref(true);
-const formRef = ref();
-const data = reactive({
-  form: {
-    date: new Date(),
-  },
-});
-const { form } = toRefs(data);
-
-//响应式数据,复杂的数据结果
-const queryParams = reactive({
-  current: 1,
-  size: 10,
-});
-
-const getList = () => {
-  loading.value = true;
-  getHisParcels(queryParams).then((res) => {
-    tableData.value = res.data.rows;
-    total.value = res.data.total;
-    loading.value = false;
-  });
-};
-
-function onSubmit() {
-  formRef.value.validate((valid) => {
-    if (valid) {
-      addParcel(form.value).then(() => {
-        ElMessage.success("添加包裹成功!");
-        reset();
-        getList();
-      });
-    }
-  });
-}
-function handleDelete(i, r) {
-  ElMessageBox.confirm("确定删除吗？", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning",
-  })
-    .then(() => {
-      deleteParcel(r.id)
-        .then(() => {
-          ElMessage.success("删除包裹成功!");
-          getList();
-        })
-        .catch(() => {});
-    })
-    .catch(() => {});
-
-  console.log(i, r);
-}
-
-function reset() {
-  formRef.value.resetFields();
-}
-getList();
-</script>

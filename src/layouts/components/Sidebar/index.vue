@@ -1,53 +1,38 @@
+<script setup lang="ts">
+import Logo from './Logo.vue'
+import SidebarItem from './SidebarItem.vue'
+import variables from '@/assets/styles/variables.module.scss'
+
+const route = useRoute()
+const appStore = useAppStore()
+const permissionStore = usePermissionStore()
+
+const { sidebarRouters } = storeToRefs(permissionStore)
+// 所有路由
+
+const isCollapse = computed(() => !appStore.sidebar.opened)
+
+const activeMenu = computed(() => {
+  const { meta, path } = route
+  // if set path, the sidebar will highlight the path you set
+  if (meta.activeMenu)
+    return meta.activeMenu
+
+  return path
+})
+</script>
+
 <template>
-  <div
-    class="has-logo"
-    :style="{ backgroundColor: variables.menuLightBackground }"
-  >
+  <div class="has-logo" :style="{ backgroundColor: variables.menuLightBackground }">
     <logo :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
-      <el-menu
-        :default-active="activeMenu"
-        :background-color="variables.menuLightBackground"
-        :text-color="variables.menuLightColor"
-        :collapse="isCollapse"
-        :collapse-transition="false"
-        mode="vertical"
-      >
-        <SidebarItem
-          v-for="(r, index) in sidebarRouters"
-          :key="r.path + index"
-          :item="r"
-          :base-path="r.path"
-        />
+      <el-menu :default-active="activeMenu" :background-color="variables.menuLightBackground"
+        :text-color="variables.menuLightColor" :collapse="isCollapse" :collapse-transition="false" mode="vertical">
+        <SidebarItem v-for="(r, index) in sidebarRouters" :key="r.path + index" :item="r" :base-path="r.path" />
       </el-menu>
     </el-scrollbar>
   </div>
 </template>
-
-<script setup>
-import variables from "@/assets/styles/variables.module.scss";
-import Logo from "./Logo.vue";
-import SidebarItem from "./SidebarItem.vue";
-
-const route = useRoute();
-const appStore = useAppStore();
-const permissionStore = usePermissionStore();
-
-// 所有路由
-const sidebarRouters = computed(() => permissionStore.sidebarRouters);
-console.log(sidebarRouters.value);
-
-const isCollapse = computed(() => !appStore.sidebar.opened);
-
-const activeMenu = computed(() => {
-  const { meta, path } = route;
-  // if set path, the sidebar will highlight the path you set
-  if (meta.activeMenu) {
-    return meta.activeMenu;
-  }
-  return path;
-});
-</script>
 
 <style lang="scss" scoped>
 .sidebarLogoFade-enter-active {
@@ -98,3 +83,4 @@ const activeMenu = computed(() => {
   }
 }
 </style>
+>
