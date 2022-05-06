@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="12" :lg="8">
+      <el-col :xs="24" :sm="24" :md="24" :lg="8">
         <el-card class="card-box">
           <template #header>
             <div class="clearfix">
@@ -9,31 +9,24 @@
             </div>
           </template>
           <div>
-            <el-form :model="form" label-width="120px">
-              <el-form-item label="取件码">
-                <el-input v-model="form.name" />
+            <el-form ref="formRef" :model="form" label-width="120px">
+              <el-form-item label="取件码" prop="code">
+                <el-input v-model="form.code" placeholder="请输入取件码" />
               </el-form-item>
-              <el-form-item label="取件区域">
-                <el-select v-model="form.region" placeholder="选择取件区域">
-                  <el-option label="8号驿站" value="8" />
-                  <el-option label="20号抑制" value="20" />
+              <el-form-item label="取件区域" prop="location">
+                <el-select v-model="form.location" placeholder="选择取件区域">
+                  <el-option label="8号驿站" value="8号驿站" />
+                  <el-option label="20号驿站" value="20号驿站" />
                 </el-select>
               </el-form-item>
-              <el-form-item label="取件时间">
-                <el-date-picker
-                  v-model="form.date1"
-                  type="date"
-                  placeholder="Pick a date"
-                  style="width: 100%"
-                />
-              </el-form-item>
 
-              <el-form-item label="备注">
+              <el-form-item label="备注" prop="description">
                 <el-input
-                  v-model="form.desc"
+                  v-model="form.description"
                   type="textarea"
                   maxlength="30"
                   show-word-limit
+                  placeholder="送到哪"
                 />
               </el-form-item>
               <el-form-item>
@@ -44,14 +37,53 @@
         </el-card>
       </el-col>
 
-      <el-col :xs="24" :sm="24" :md="12" :lg="16">
+      <el-col :xs="24" :sm="24" :md="24" :lg="16">
         <el-card class="card-box">
           <template #header>
             <div class="clearfix">
               <span>我的包裹</span>
             </div>
           </template>
-          <div class="body"></div>
+          <div class="body">
+            <el-table v-loading="loading" :data="tableData" style="width: 100%">
+              <!-- <el-table-column prop="id" label="编号" /> -->
+              <el-table-column prop="location" label="地址" />
+              <el-table-column prop="code" label="取件码" />
+              <el-table-column prop="createTime" label="创建时间" width="180" />
+
+              <el-table-column prop="status" label="状态">
+                <template #default="scope">
+                  <el-tag
+                    :type="scope.row.status === 0 ? '' : 'success'"
+                    disable-transitions
+                    >{{ scope.row.status === 0 ? "未取件" : "已取件" }}</el-tag
+                  >
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" width="150" align="center">
+                <template #default="scope">
+                  <!-- <el-button
+                    size="small"
+                    @click="handleEdit(scope.$index, scope.row)"
+                    >编辑</el-button
+                  > -->
+                  <el-button
+                    size="small"
+                    type="danger"
+                    @click="handleDelete(scope.$index, scope.row)"
+                    >删除</el-button
+                  >
+                </template>
+              </el-table-column>
+            </el-table>
+            <pagination
+              v-show="total > 0"
+              v-model:page="queryParams.current"
+              v-model:limit="queryParams.size"
+              :total="total"
+              @pagination="getList"
+            />
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -59,15 +91,65 @@
 </template>
 
 <script setup>
-// do not use same name with ref
-const form = reactive({
-  name: "",
-  region: "",
-  date1: "",
-  date2: "",
-  delivery: false,
-  type: [],
-  resource: "",
-  desc: "",
+import { addParcel, getHisParcels, deleteParcel } from "@/api/parcels";
+const tableData = ref([]);
+const total = ref(0);
+const loading = ref(true);
+const formRef = ref();
+const data = reactive({
+  form: {
+    date: new Date(),
+  },
 });
+const { form } = toRefs(data);
+
+//响应式数据,复杂的数据结果
+const queryParams = reactive({
+  current: 1,
+  size: 10,
+});
+
+const getList = () => {
+  loading.value = true;
+  getHisParcels(queryParams).then((res) => {
+    tableData.value = res.data.rows;
+    total.value = res.data.total;
+    loading.value = false;
+  });
+};
+
+function onSubmit() {
+  formRef.value.validate((valid) => {
+    if (valid) {
+      addParcel(form.value).then(() => {
+        ElMessage.success("添加包裹成功!");
+        reset();
+        getList();
+      });
+    }
+  });
+}
+function handleDelete(i, r) {
+  ElMessageBox.confirm("确定删除吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      deleteParcel(r.id)
+        .then(() => {
+          ElMessage.success("删除包裹成功!");
+          getList();
+        })
+        .catch(() => {});
+    })
+    .catch(() => {});
+
+  console.log(i, r);
+}
+
+function reset() {
+  formRef.value.resetFields();
+}
+getList();
 </script>

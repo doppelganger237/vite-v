@@ -1,9 +1,19 @@
 <template>
   <div class="app-container">
     <el-table v-loading="loading" :data="tableData" style="width: 100%">
-      <el-table-column prop="id" label="id" width="180" />
-      <el-table-column prop="username" label="用户名" width="180" />
-      <el-table-column prop="createTime" label="打卡日期" />
+      <el-table-column prop="id" label="id" />
+      <el-table-column prop="username" label="用户名" />
+      <el-table-column prop="createTime" width="180" label="打卡日期" />
+      <el-table-column label="操作" width="130" align="center">
+        <template #default="scope">
+          <el-button
+            size="small"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button
+          >
+        </template>
+      </el-table-column>
     </el-table>
     <pagination
       v-show="total > 0"

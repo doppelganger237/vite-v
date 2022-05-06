@@ -33,3 +33,10 @@ export const getRouters = () => {
     method: "get",
   });
 };
+
+export function getById(id) {
+  return request({
+    url: `/users/${id}`,
+    method: "get",
+  });
+}

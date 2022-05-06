@@ -25,6 +25,10 @@
           </div>
           <template #dropdown>
             <el-dropdown-menu>
+              <router-link :to="profileUrl">
+                <el-dropdown-item>个人中心</el-dropdown-item>
+              </router-link>
+
               <el-dropdown-item
                 v-if="roles.includes('admin')"
                 command="adminMode"
@@ -46,12 +50,8 @@
 const appStore = useAppStore();
 const userStore = useUserStore();
 
-const roles = computed(() => userStore.roles);
-console.log(roles.value);
-
-const avatar = ref(
-  "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
-);
+const { avatar, roles, id } = storeToRefs(userStore);
+const profileUrl = "/users/" + id.value;
 
 function toggleSideBar() {
   appStore.toggleSideBar();
@@ -74,7 +74,6 @@ function logout() {
     type: "warning",
   })
     .then(() => {
-      //TODO
       userStore.logout().then(() => {
         location.href = "/";
       });

@@ -18,6 +18,7 @@
 <script setup>
 import { useWindowSize } from "@vueuse/core";
 import { onBeforeRouteLeave } from "vue-router";
+import { AppMain, Navbar, Sidebar } from "./components";
 
 const appStore = useAppStore();
 const sidebar = computed(() => appStore.sidebar);

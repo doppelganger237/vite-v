@@ -25,7 +25,8 @@ router.beforeEach((to, from, next) => {
               .generateRoutes(router.options.routes)
               .then((accessRoutes) => {
                 // 根据roles权限生成可访问的路由表
-                console.log(accessRoutes);
+                //console.log(accessRoutes);
+                // TODO, 路由有重复, 代码代优化
                 accessRoutes.forEach((route) => {
                   router.addRoute(route); // 动态添加可访问路由表
                 });
@@ -33,7 +34,7 @@ router.beforeEach((to, from, next) => {
               });
           })
           .catch((err) => {
-            console.log(err);
+            // 获取用户信息失败
             userStore.logout();
             next({ path: "/login" });
           });

@@ -3,7 +3,7 @@
     class="has-logo"
     :style="{ backgroundColor: variables.menuLightBackground }"
   >
-    <SidebarLogo :collapse="isCollapse" />
+    <logo :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
@@ -26,7 +26,8 @@
 
 <script setup>
 import variables from "@/assets/styles/variables.module.scss";
-import { computed } from "vue";
+import Logo from "./Logo.vue";
+import SidebarItem from "./SidebarItem.vue";
 
 const route = useRoute();
 const appStore = useAppStore();

@@ -7,7 +7,7 @@
         !item.alwaysShow
       "
     >
-      <SidebarLink
+      <app-link
         v-if="onlyOneChild.meta"
         :to="resolvePath(onlyOneChild.path, onlyOneChild.query)"
       >
@@ -15,15 +15,11 @@
           :index="resolvePath(onlyOneChild.path)"
           :class="{ 'submenu-title-noDropdown': !isNest }"
         >
-          <span
-            class="iconify svg-icon"
-            :data-icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"
-          ></span>
-          <!-- <svg-icon
+          <svg-icon
             :icon-class="
               onlyOneChild.meta.icon || (item.meta && item.meta.icon)
             "
-          /> -->
+          />
           <template #title
             ><span
               class="menu-title"
@@ -32,7 +28,7 @@
             ></template
           >
         </el-menu-item>
-      </SidebarLink>
+      </app-link>
     </template>
 
     <el-sub-menu
@@ -42,11 +38,7 @@
       popper-append-to-body
     >
       <template v-if="item.meta" #title>
-        <span
-          class="iconify svg-icon"
-          :data-icon="item.meta && item.meta.icon"
-        ></span>
-        <!-- <svg-icon :icon-class="item.meta && item.meta.icon" /> -->
+        <svg-icon :icon-class="item.meta && item.meta.icon" />
         <span class="menu-title" :title="hasTitle(item.meta.title)">{{
           item.meta.title
         }}</span>
@@ -66,6 +58,7 @@
 
 <script setup>
 import { isExternal } from "@/utils/validate";
+import AppLink from "./Link.vue";
 
 const props = defineProps({
   // route object

@@ -28,15 +28,9 @@
             </div>
           </template>
           <div>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
-            <p>消息消息消息消息消息</p>
+            <p>
+              昔者庄周梦为胡蝶，栩栩然胡蝶也，自喻适志与！不知周也。俄然觉，则蘧蘧然周也。不知周之梦为胡蝶与，胡蝶之梦为周与？周与胡蝶，则必有分矣。此之谓物化。
+            </p>
           </div>
         </el-card>
       </el-col>
@@ -55,7 +49,7 @@
                   {{ data.day.split("-").slice(2).join("") }}
                 </p>
                 <span>
-                  <i-ep-select />
+                  <i-ep-select v-if="isDateReported(data.day)" />
                 </span>
               </template>
             </el-calendar>
@@ -84,31 +78,47 @@
 <script setup>
 //const tableData = ref([])
 import { healthReport, hasReported, getReports } from "@/api/healthreports";
+import { isSameDay, isToday } from "@/utils/date";
+
+// 打卡表格
 const dialogFormVisible = ref(false);
 const formLabelWidth = "80px";
 const reportForm = reactive({
   name: "",
-  region: "",
-  date1: "",
-  date2: "",
-  delivery: false,
-  type: [],
-  resource: "",
-  desc: "",
 });
 const reportRef = ref();
+
+// 展示信息
 const welcomeMsg = ref("");
 const hasReportedToday = ref(false);
 
 const reportedDate = reactive([]);
 function getReportInfo() {
-  hasReported().then((res) => {
-    hasReportedToday.value = res.data;
-    welcomeMsg.value = "今日你" + (res.data ? "已经" : "还未") + "打卡";
-  });
+  // hasReported().then((res) => {
+  //   hasReportedToday.value = res.data;
+  //   welcomeMsg.value = "今日你" + (res.data ? "已经" : "还未") + "打卡";
+  // });
   getReports().then((res) => {
-    reportedDate.push(...res.data);
+    if (res.data && res.data.length > 0) {
+      if (isToday(res.data[0])) {
+        hasReportedToday.value = true;
+        welcomeMsg.value = "今日你已经打卡!";
+      } else {
+        welcomeMsg.value = "今日你还未打卡!";
+      }
+      reportedDate.push(...res.data);
+    } else {
+      welcomeMsg.value = "开启你的第一次打卡!";
+    }
   });
+}
+
+function isDateReported(day) {
+  let reported = false;
+  reportedDate.forEach((d) => {
+    if (isSameDay(d, day)) reported = true;
+  });
+  return reported;
 }
 
 function submitForm() {

@@ -10,8 +10,6 @@ import { createPinia } from "pinia";
 import "virtual:svg-icons-register";
 import "@/assets/styles/index.scss"; // global css
 
-import "@purge-icons/generated"; // <-- This
-
 const app = createApp(App);
 
 app.use(router);

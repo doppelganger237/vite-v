@@ -43,7 +43,7 @@ service.interceptors.response.use(
       return Promise.reject(new Error(msg));
     }
 
-    return res;
+    return Promise.resolve(res);
   },
   (error) => {
     console.log("err" + error);

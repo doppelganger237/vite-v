@@ -1,8 +1,9 @@
 <template>
   <div>
-    <i-ep-full-screen @click="toggle" />
-    <!-- <i-akar-icons-full-screen  @click="toggle" v-if="!isFullscreen" />
-    <i-akar-icons-normal-screen  @click="toggle" v-if="isFullscreen" /> -->
+    <svg-icon
+      :icon-class="isFullscreen ? 'exit-fullscreen' : 'fullscreen'"
+      @click="toggle"
+    />
   </div>
 </template>
 

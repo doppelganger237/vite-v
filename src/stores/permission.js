@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
 import { getRouters } from "@/api/user";
 import Layout from "@/layouts/default.vue";
-import ParentView from "@/components/common/ParentView.vue";
-import InnerLink from "@/components/common/InnerLink.vue";
+import InnerLink from "@/components/InnerLink.vue";
 
+// https://vitejs.dev/guide/features.html#glob-import 动态加载模块
+// https://blog.csdn.net/qq_28550263/article/details/121987350
 const modules = import.meta.glob("./../../views/**/*.vue");
 
 export const usePermissionStore = defineStore("permission", {
@@ -25,26 +25,15 @@ export const usePermissionStore = defineStore("permission", {
         const sidebarRoutes = filterAsyncRouter(sdata);
         const rewriteRoutes = filterAsyncRouter(rdata, false, true);
         const defaultRoutes = filterAsyncRouter(defaultData);
-        // commit('SET_ROUTES', rewriteRoutes)
 
-        //const menuRoutes = constantRoutes.filter((r) => r.meta && r.meta.menu);
-        //console.log(menuRoutes);
+        this.addRoutes = rewriteRoutes;
+        this.routes = constantRoutes.concat(rewriteRoutes);
+
         this.sidebarRouters = constantRoutes.concat(sidebarRoutes);
-        // this.sidebarRouters = sidebarRoutes.concat({
-        //   path: "",
-        //   component: Layout,
-        //   redirect: "/index",
-        //   children: [
-        //     {
-        //       path: "/",
-        //       component: () => import("@/views/index"),
-        //       name: "Index",
-        //       meta: { title: "首页", icon: "dashboard", affix: true },
-        //     },
-        //   ],
-        // });
-        // commit('SET_DEFAULT_ROUTES', sidebarRoutes)
-        // commit('SET_TOPBAR_ROUTES', defaultRoutes)
+
+        this.defaultRoutes = sidebarRoutes;
+
+        this.topbarRouters = defaultRoutes;
 
         return rewriteRoutes;
       });

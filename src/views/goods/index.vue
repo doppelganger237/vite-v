@@ -22,12 +22,3 @@
     </el-timeline>
   </div>
 </template>
-<route lang="yaml">
-meta:
-  title: "首页"
-  icon: "dashboard"
-</route>
-
-<script setup>
-const router = useRouter();
-</script>
