@@ -63,79 +63,77 @@ getList()
 </script>
 
 <template>
-  <div class="app-container">
-    <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="24" :lg="8">
-        <el-card class="card-box">
-          <template #header>
-            <div class="clearfix">
-              <span>添加包裹</span>
-            </div>
-          </template>
-          <div>
-            <el-form ref="formRef" :model="form" label-width="120px">
-              <el-form-item label="取件码" prop="code">
-                <el-input v-model="form.code" placeholder="请输入取件码" />
-              </el-form-item>
-              <el-form-item label="取件区域" prop="location">
-                <el-select v-model="form.location" placeholder="选择取件区域">
-                  <el-option label="8号驿站" value="8号驿站" />
-                  <el-option label="20号驿站" value="20号驿站" />
-                </el-select>
-              </el-form-item>
-
-              <el-form-item label="备注" prop="description">
-                <el-input v-model="form.description" type="textarea" maxlength="30" show-word-limit placeholder="送到哪" />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="onSubmit">
-                  提交
-                </el-button>
-              </el-form-item>
-            </el-form>
+  <el-row :gutter="20">
+    <el-col :xs="24" :sm="24" :md="24" :lg="8">
+      <el-card class="card-box">
+        <template #header>
+          <div class="clearfix">
+            <span>添加包裹</span>
           </div>
-        </el-card>
-      </el-col>
+        </template>
+        <div>
+          <el-form ref="formRef" :model="form" label-width="120px">
+            <el-form-item label="取件码" prop="code">
+              <el-input v-model="form.code" placeholder="请输入取件码" />
+            </el-form-item>
+            <el-form-item label="取件区域" prop="location">
+              <el-select v-model="form.location" placeholder="选择取件区域">
+                <el-option label="8号驿站" value="8号驿站" />
+                <el-option label="20号驿站" value="20号驿站" />
+              </el-select>
+            </el-form-item>
 
-      <el-col :xs="24" :sm="24" :md="24" :lg="16">
-        <el-card class="card-box">
-          <template #header>
-            <div class="clearfix">
-              <span>我的包裹</span>
-            </div>
-          </template>
-          <div class="body">
-            <el-table v-loading="loading" :data="tableData" style="width: 100%">
-              <!-- <el-table-column prop="id" label="编号" /> -->
-              <el-table-column prop="location" label="地址" />
-              <el-table-column prop="code" label="取件码" />
-              <el-table-column prop="createTime" label="创建时间" width="180" />
+            <el-form-item label="备注" prop="description">
+              <el-input v-model="form.description" type="textarea" maxlength="30" show-word-limit placeholder="送到哪" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit">
+                提交
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-card>
+    </el-col>
 
-              <el-table-column prop="status" label="状态">
-                <template #default="scope">
-                  <el-tag :type="scope.row.status === 0 ? '' : 'success'" disable-transitions>
-                    {{ scope.row.status === 0 ? "未取件" : "已取件" }}
-                  </el-tag>
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="150" align="center">
-                <template #default="scope">
-                  <!-- <el-button
+    <el-col :xs="24" :sm="24" :md="24" :lg="16">
+      <el-card class="card-box">
+        <template #header>
+          <div class="clearfix">
+            <span>我的包裹</span>
+          </div>
+        </template>
+        <div class="body">
+          <el-table v-loading="loading" :data="tableData" style="width: 100%">
+            <!-- <el-table-column prop="id" label="编号" /> -->
+            <el-table-column prop="location" label="地址" />
+            <el-table-column prop="code" label="取件码" />
+            <el-table-column prop="createTime" label="创建时间" width="180" />
+
+            <el-table-column prop="status" label="状态">
+              <template #default="scope">
+                <el-tag :type="scope.row.status === 0 ? '' : 'success'" disable-transitions>
+                  {{ scope.row.status === 0 ? "未取件" : "已取件" }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="150" align="center">
+              <template #default="scope">
+                <!-- <el-button
                     size="small"
                     @click="handleEdit(scope.$index, scope.row)"
                     >编辑</el-button
                   > -->
-                  <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
-                    删除
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-            <pagination v-show="total > 0" v-model:page="queryParams.current" v-model:limit="queryParams.size"
-              :total="total" @pagination="getList" />
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
-  </div>
+                <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
+                  删除
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+          <pagination v-show="total > 0" v-model:page="queryParams.current" v-model:limit="queryParams.size"
+            :total="total" @pagination="getList" />
+        </div>
+      </el-card>
+    </el-col>
+  </el-row>
 </template>

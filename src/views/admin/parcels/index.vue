@@ -21,21 +21,19 @@ getList()
 </script>
 
 <template>
-  <div class="app-container">
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="id" label="编号" />
-      <el-table-column prop="username" label="用户名" />
-      <el-table-column prop="location" label="地址" />
-      <el-table-column prop="code" label="取件码" />
-      <el-table-column prop="createTime" width="180" label="创建时间" />
+  <el-table :data="tableData" style="width: 100%">
+    <el-table-column prop="id" label="编号" />
+    <el-table-column prop="username" label="用户名" />
+    <el-table-column prop="location" label="地址" />
+    <el-table-column prop="code" label="取件码" />
+    <el-table-column prop="createTime" width="180" label="创建时间" />
 
-      <el-table-column prop="status" label="状态">
-        <template #default="scope">
-          <el-tag :type="scope.row.status === 0 ? '' : 'success'" disable-transitions>
-            {{ scope.row.status === 0 ? "未取件" : "已经取件" }}
-          </el-tag>
-        </template>
-      </el-table-column>
-    </el-table>
-  </div>
+    <el-table-column prop="status" label="状态">
+      <template #default="scope">
+        <el-tag :type="scope.row.status === 0 ? '' : 'success'" disable-transitions>
+          {{ scope.row.status === 0 ? "未取件" : "已经取件" }}
+        </el-tag>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>

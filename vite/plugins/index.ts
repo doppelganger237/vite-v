@@ -13,6 +13,7 @@ export default function createVitePlugins(viteEnv, isBuild = false) {
   plugins.push(
     Icons({
       autoInstall: true,
+      scale: 1, // Scale of icons against 1em
     }),
   )
 

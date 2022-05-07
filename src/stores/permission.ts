@@ -31,7 +31,8 @@ export const usePermissionStore = defineStore('permission', {
         this.routes = constantRoutes.concat(rewriteRoutes)
 
         this.sidebarRouters = constantRoutes.concat(sidebarRoutes)
-
+        console.log(constantRoutes)
+        this.sidebarRouters = sidebarRoutes
         this.defaultRoutes = sidebarRoutes
 
         this.topbarRouters = defaultRoutes

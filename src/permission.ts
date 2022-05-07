@@ -28,9 +28,9 @@ router.beforeEach((to, from, next) => {
                 // 根据roles权限生成可访问的路由表
                 // console.log(accessRoutes);
                 // TODO, 路由有重复, 代码代优化
-                accessRoutes.forEach((route) => {
-                  router.addRoute(route) // 动态添加可访问路由表
-                })
+                // accessRoutes.forEach((route) => {
+                //   router.addRoute(route) // 动态添加可访问路由表
+                // })
                 next({ ...to, replace: false }) // hack方法 确保addRoutes已完成
               })
           })

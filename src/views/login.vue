@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" >
 import Cookies from 'js-cookie'
 import { decrypt, encrypt } from '@/utils/jsencrypt' // rememberMe-password加密
 const loading = ref(false)

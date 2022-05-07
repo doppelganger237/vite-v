@@ -1,5 +1,7 @@
 declare interface IUserInfo {
+  id: number
   username: string
   avatar: string
-  id: number
+  descript: string
+  createTime: Date
 }

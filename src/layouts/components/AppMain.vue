@@ -4,7 +4,9 @@
   <section class="app-main">
     <router-view v-slot="{ Component, route }">
       <transition name="fade-transform" mode="out-in">
-        <component :is="Component" :key="route.path" />
+        <div class="app-container">
+          <component :is="Component" :key="route.path" />
+        </div>
       </transition>
     </router-view>
   </section>

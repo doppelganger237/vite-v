@@ -1,9 +1,3 @@
-<template>
-  <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconName" :fill="color" />
-  </svg>
-</template>
-
 <script>
 export default defineComponent({
   props: {
@@ -13,26 +7,32 @@ export default defineComponent({
     },
     className: {
       type: String,
-      default: "",
+      default: '',
     },
     color: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   setup(props) {
     return {
       iconName: computed(() => `#icon-${props.iconClass}`),
       svgClass: computed(() => {
-        if (props.className) {
-          return `svg-icon ${props.className}`;
-        }
-        return "svg-icon";
+        if (props.className)
+          return `svg-icon ${props.className}`
+
+        return 'svg-icon'
       }),
-    };
+    }
   },
-});
+})
 </script>
+
+<template>
+  <svg :class="svgClass" aria-hidden="true">
+    <use :xlink:href="iconName" :fill="color" />
+  </svg>
+</template>
 
 <style scope lang="scss">
 .sub-el-icon,
