@@ -1,8 +1,9 @@
 // TODO 完善
 import axios from 'axios'
+import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 
-export interface AxiosResponse<T = any> {
+export interface IResponse <T = any> {
   code: number
   data: T
   msg: string
@@ -15,7 +16,7 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(
-  (config) => {
+  (config: AxiosRequestConfig) => {
     return config
   },
   (error) => {
@@ -25,7 +26,7 @@ service.interceptors.request.use(
 )
 
 service.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse) => {
     // const userStore = useUserStore()
     // console.log(response);
     // 解析后端封装数据
@@ -52,7 +53,7 @@ service.interceptors.response.use(
   },
   (error) => {
     let { message } = error
-    if (message == 'Network Error')
+    if (message === 'Network Error')
       message = '后端接口连接异常'
 
     else if (message.includes('timeout'))

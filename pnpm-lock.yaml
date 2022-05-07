@@ -5,6 +5,7 @@ specifiers:
   '@iconify-json/ep': ^1.1.3
   '@iconify/iconify': ^2.2.1
   '@iconify/json': ^2.1.36
+  '@types/js-cookie': ^3.0.2
   '@types/nprogress': ^0.2.0
   '@vitejs/plugin-vue': ^2.3.1
   '@vueuse/core': ^8.3.1
@@ -47,6 +48,7 @@ devDependencies:
   '@antfu/eslint-config': 0.23.0_eslint@8.14.0+typescript@4.6.4
   '@iconify-json/ep': 1.1.3
   '@iconify/json': 2.1.36
+  '@types/js-cookie': 3.0.2
   '@types/nprogress': 0.2.0
   '@vitejs/plugin-vue': 2.3.1_vite@2.9.6+vue@3.2.33
   consola: 2.15.3
@@ -322,6 +324,10 @@ packages:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
       '@types/ms': 0.7.31
+    dev: true
+
+  /@types/js-cookie/3.0.2:
+    resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==}
     dev: true
 
   /@types/json-schema/7.0.11:

@@ -34,9 +34,8 @@ export const getRouters = () => {
   })
 }
 
-export function getById(id: number) {
-  return request({
-    url: `/users/${id}`,
-    method: 'get',
-  })
+export function getUserById(id: number) {
+  return request.get<void, IUserInfo>(
+    `/users/${id}`,
+  )
 }

@@ -11,8 +11,8 @@ const queryParams = reactive({
 
 const getList = () => {
   getParcelList(queryParams).then((res) => {
-    standardizeForm(res.data.rows).then(() => {
-      tableData.value = res.data.rows
+    standardizeForm(res.rows).then(() => {
+      tableData.value = res.rows
     })
   })
 }

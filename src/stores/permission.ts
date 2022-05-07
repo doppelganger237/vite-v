@@ -1,6 +1,7 @@
 import { getRouters } from '@/api/user'
 import Layout from '@/layouts/default.vue'
 import InnerLink from '@/components/InnerLink.vue'
+import ParentView from '@/components/ParentView.vue'
 
 // https://vitejs.dev/guide/features.html#glob-import 动态加载模块
 // https://blog.csdn.net/qq_28550263/article/details/121987350

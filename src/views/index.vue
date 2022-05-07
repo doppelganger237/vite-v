@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const router = useRouter()
+</script>
+
 <template>
   <div class="app-container">
     <el-timeline>
@@ -22,12 +26,9 @@
     </el-timeline>
   </div>
 </template>
+
 <route lang="yaml">
 meta:
-  title: "首页"
-  icon: "dashboard"
+  title: 首页
+  icon: dashboard
 </route>
-
-<script setup lang="ts">
-const router = useRouter();
-</script>

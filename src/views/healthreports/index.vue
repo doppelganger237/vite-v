@@ -14,23 +14,19 @@ const reportRef = ref()
 // 展示信息
 const welcomeMsg = ref('')
 const hasReportedToday = ref(false)
-
 const reportedDate = reactive<any>([])
+
 function getReportInfo() {
-  // hasReported().then((res) => {
-  //   hasReportedToday.value = res.data;
-  //   welcomeMsg.value = "今日你" + (res.data ? "已经" : "还未") + "打卡";
-  // });
-  getReports().then((res) => {
-    if (res.data && res.data.length > 0) {
-      if (isToday(res.data[0])) {
+  getReports().then((res: any) => {
+    if (res && res.length > 0) {
+      if (isToday(res[0])) {
         hasReportedToday.value = true
         welcomeMsg.value = '今日你已经打卡!'
       }
       else {
         welcomeMsg.value = '今日你还未打卡!'
       }
-      reportedDate.push(...res.data)
+      reportedDate.push(...res)
     }
     else {
       welcomeMsg.value = '开启你的第一次打卡!'
@@ -38,9 +34,9 @@ function getReportInfo() {
   })
 }
 
-function isDateReported(day) {
+function isDateReported(day: string) {
   let reported = false
-  reportedDate.forEach((d) => {
+  reportedDate.forEach((d: string) => {
     if (isSameDay(d, day))
       reported = true
   })
@@ -48,15 +44,10 @@ function isDateReported(day) {
 }
 
 function submitForm() {
-  reportRef.value.validate((valid) => {
+  reportRef.value.validate((valid: any) => {
     if (valid) {
       healthReport().then(() => {
         dialogFormVisible.value = false
-
-        ElMessage({
-          type: 'info',
-          message: '打卡成功',
-        })
         ElMessage.success('打卡成功')
         getReportInfo()
       })

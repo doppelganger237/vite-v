@@ -20,8 +20,8 @@ const queryParams = reactive({
 const getList = () => {
   loading.value = true
   getHisParcels(queryParams).then((res) => {
-    tableData.value = res.data.rows
-    total.value = res.data.total
+    tableData.value = res.rows
+    total.value = res.total
     loading.value = false
   })
 }

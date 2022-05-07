@@ -40,7 +40,7 @@ function submitForm() {
         .then(() => {
           router.push({ path: redirect.value || '/' })
         })
-        .catch((err) => {
+        .catch(() => {
           loading.value = false
         })
     }
