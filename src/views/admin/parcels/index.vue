@@ -37,3 +37,8 @@ getList()
     </el-table-column>
   </el-table>
 </template>
+
+<route lang="yaml">
+meta:
+  title: 包裹管理
+</route>

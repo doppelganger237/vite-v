@@ -1,3 +1,4 @@
+import type { Router } from 'vue-router'
 import { getRouters } from '@/api/user'
 import Layout from '@/layouts/default.vue'
 import InnerLink from '@/components/InnerLink.vue'
@@ -18,8 +19,12 @@ export const usePermissionStore = defineStore('permission', {
     }
   },
   actions: {
-    async generateRoutes(constantRoutes) {
+    async generateRoutes(router: Router) {
       return await getRouters().then((res) => {
+        const constantRoutes = router.options.routes
+
+        console.log(constantRoutes)
+
         const sdata = JSON.parse(JSON.stringify(res))
         const rdata = JSON.parse(JSON.stringify(res))
         const defaultData = JSON.parse(JSON.stringify(res))
@@ -28,11 +33,15 @@ export const usePermissionStore = defineStore('permission', {
         const defaultRoutes = filterAsyncRouter(defaultData)
 
         this.addRoutes = rewriteRoutes
-        this.routes = constantRoutes.concat(rewriteRoutes)
+        this.routes = constantRoutes
 
-        this.sidebarRouters = constantRoutes.concat(sidebarRoutes)
-        console.log(constantRoutes)
+        // TODO 屎山,待改
+        const indexRoute = router.options.routes.find((route) => {
+          return route.path === '/'
+        }) as any
+        sidebarRoutes.unshift(indexRoute)
         this.sidebarRouters = sidebarRoutes
+
         this.defaultRoutes = sidebarRoutes
 
         this.topbarRouters = defaultRoutes

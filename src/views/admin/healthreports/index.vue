@@ -40,3 +40,8 @@ getList()
   <pagination v-show="total > 0" v-model:page="queryParams.current" v-model:limit="queryParams.size" :total="total"
     @pagination="getList" />
 </template>
+
+<route lang="yaml">
+meta:
+  title: 健康打卡管理
+</route>

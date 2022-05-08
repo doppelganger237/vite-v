@@ -16,14 +16,14 @@ router.beforeEach((to, from, next) => {
       NProgress.done()
     }
     else {
-      // 界玩意刷新页面会丢失
+      // 是否获取了当前用户数据
       if (!userStore.username) {
         userStore
           .getInfo()
           .then(() => {
             const permissionStore = usePermissionStore()
             permissionStore
-              .generateRoutes(router.options.routes)
+              .generateRoutes(router)
               .then((accessRoutes) => {
                 // 根据roles权限生成可访问的路由表
                 // console.log(accessRoutes);

@@ -86,6 +86,11 @@ function onClick(item: any) {
   </el-row>
 </template>
 
+<route lang="yaml">
+meta:
+  title: 二手商品
+</route>
+
 <style lang="scss" scoped>
 .price {
   font-weight: 400;

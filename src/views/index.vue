@@ -1,5 +1,4 @@
-<script setup  name="Index" lang="ts">
-const router = useRouter()
+<script setup  lang="ts">
 </script>
 
 <template>

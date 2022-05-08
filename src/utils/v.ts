@@ -1,4 +1,4 @@
-import { getById } from '@/api/user'
+import { getUserById } from '@/api/user'
 
 /**
  * 处理表单中的用户ID
@@ -18,7 +18,7 @@ export async function standardizeForm(originalForm) {
         r.username = nameMap.get(userId)
       }
       else {
-        const res = await getById(userId)
+        const res = await getUserById(userId)
         const { username } = res
         nameMap.set(userId, username)
         r.username = username

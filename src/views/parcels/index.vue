@@ -137,3 +137,8 @@ getList()
     </el-col>
   </el-row>
 </template>
+
+<route lang="yaml">
+meta:
+  title: 包裹代拿
+</route>
