@@ -23,6 +23,7 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 .pm-container {
+  height: 100%;
   background-color: white;
   box-shadow: 0px 0px 6px 2px rgb(38 103 166 / 8%);
 
