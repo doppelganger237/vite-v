@@ -35,7 +35,7 @@ export const getRouters = () => {
 }
 
 export function getUserById(id: number) {
-  return request.get<void, IUserInfo>(
+  return request.get<void, UserData>(
     `/users/${id}`,
   )
 }

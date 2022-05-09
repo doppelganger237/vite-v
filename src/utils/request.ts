@@ -2,8 +2,10 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
+import { getToken } from '@/utils/auth'
+import cache from '@/plugins/cache'
 
-export interface IResponse <T = any> {
+export interface IResponse<T = any> {
   code: number
   data: T
   msg: string
@@ -17,6 +19,10 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
+    const isToken = (config.headers || {}).isToken === false
+    if (getToken() && !isToken)
+      config.headers.Authorization = `Bearer ${getToken()}` // 让每个请求携带自定义token 请根据实际情况自行修改
+
     return config
   },
   (error) => {
@@ -27,7 +33,7 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    // const userStore = useUserStore()
+    const userStore = useUserStore()
     // console.log(response);
     // 解析后端封装数据
     const { code, data, msg } = response.data
@@ -39,9 +45,9 @@ service.interceptors.response.use(
           cancelButtonText: '取消',
           type: 'warning',
         }).then(() => {
-          // userStore.logout().then(() => {
-          //   location.reload()
-          // })
+          userStore.logout().then(() => {
+            location.reload()
+          })
         })
       }
       ElMessage.error(msg)

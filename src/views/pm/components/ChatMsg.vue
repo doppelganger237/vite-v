@@ -1,63 +1,29 @@
-<script>
-export default {
-  name: 'ChatMsg',
-  props: {
-    msgList: {
-      type: Array,
-      default: [],
-    },
-    toUser: {
-      type: Boolean,
-      default: false,
-    },
-    selectUser: {
-      type: Array,
-      default: [],
-    },
-    users: {
-      type: Array,
-      default: [],
-    },
-  },
-  data() {
-    return {}
-  },
+<script setup lang="ts">
+interface Props {
+  msgList: any
+  toUser: UserData
+  user: LoginUser
 }
+const props = defineProps<Props>()
 </script>
 
 <template>
   <!-- 用户单聊信息展示 -->
-  <el-main id="msgDiv" width="" class="app-msg">
-    <span v-if="!toUser" style="font-size: 12px"><i class="el-icon-chat-dot-round" />请选择聊天</span>
-    <div v-for="list in msgList" v-else :key="list.id">
-      <i v-if="list.time_status" style="font-size: 10px">{{ renderTime(list.created_at) }}</i>
-      <p v-if="list.status == 1" class="msg-content-left">
-        <img class="img-left" :src="selectUser.avatar">
-        <span v-if="list.msg_type == 1">
-          <!-- <p v-html="list.msg"></p> -->
-          {{ list.msg }}&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-size:8px">{{ list.created_at }}</i>
+  <el-main v-if="msgList.length" id="msgDiv" width="" class="app-msg">
+    <div v-for="list in msgList" :key="list.id">
+      <p v-if="list.from_id !== user.id" class="msg-content-left">
+        <img class="img-left" :src="toUser.avatar">
+        <span>
+          <!-- <p v-html="list.context"></p> -->
+          {{ list.context }}<i style="font-size:8px">{{ list.created_at }}</i>
         </span>
-        <a :href="list.msg" target="_blank"><img v-if="list.msg_type == 2" :src="list.msg" class="im-gif"></a>
-        <span v-if="list.msg_type == 3">
-          <p v-html="list.msg" />
-        </span>
-        <audio v-if="list.msg_type == 4" class="audio-left" controls>
-          <source :src="list.msg" type="audio/mpeg">
-        </audio>
       </p>
       <p v-else class="msg-content-right">
-        <span v-if="list.msg_type == 1">
-          <!-- <p v-html="list.msg"></p> -->
-          {{ list.msg }}&nbsp;&nbsp;&nbsp;&nbsp;<i style="font-size:8px">{{ list.created_at }}</i>
+        <span>
+          <!-- <p v-html="list.context"></p> -->
+          {{ list.context }}<i style="font-size:8px">{{ list.created_at }}</i>
         </span>
-        <a :href="list.msg" target="_blank"><img v-if="list.msg_type == 2" :src="list.msg" class="im-gif"></a>
-        <span v-if="list.msg_type == 3">
-          <p v-html="list.msg" />
-        </span>
-        <audio v-if="list.msg_type == 4" class="audio-right" controls>
-          <source :src="list.msg" type="audio/mpeg">
-        </audio>
-        <img class="img-right" :src="users.avatar">
+        <img class="img-right" :src="user.avatar">
       </p>
     </div>
   </el-main>
@@ -71,7 +37,7 @@ export default {
 
 .app-msg {
   background-color: rgb(236 235 235);
-  height: 80%;
+  height: 100%;
   padding: 10px;
 
   .im-gif {

@@ -34,11 +34,10 @@ router.beforeEach((to, from, next) => {
                 next({ ...to, replace: false }) // hack方法 确保addRoutes已完成
               })
           })
-          .catch((err) => {
-            console.log(err)
-            // 获取用户信息失败
-            userStore.logout()
-            next({ path: '/login' })
+          .catch(() => {
+            // 没必要强行退出登录
+            // userStore.logout()
+            // next({ path: '/login' })
           })
       }
       else {

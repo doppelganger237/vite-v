@@ -11,6 +11,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: createVitePlugins(env, command === 'build'),
     server: {
       host: true,
+
       proxy: {
         '/api': {
           target: 'http://localhost:8080/',

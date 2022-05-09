@@ -1,23 +1,15 @@
 import { getInfo, login } from '@/api/user'
 import { getToken, removeToken, setToken } from '@/utils/auth'
 
-interface IUser {
-  token: string
-  username: string
-  avatar: string
-  id: number
-  roles: Array<string>
-}
-
 export const useUserStore = defineStore('user', {
-  state: (): IUser => ({
+  state: (): LoginUser => ({
     token: getToken() ?? '',
     username: '',
-    // TODO
     avatar:
-        'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
+      'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80',
     id: 0,
     roles: [],
+    msgData: [],
 
   }),
   actions: {
@@ -48,6 +40,9 @@ export const useUserStore = defineStore('user', {
       // await logout();
       this.$reset()
       removeToken()
+    },
+    addMsg(data) {
+      this.msgData.push(data)
     },
   },
 })

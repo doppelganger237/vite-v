@@ -9,7 +9,7 @@ import { getUserById } from '@/api/user'
 const router = useRouter()
 const route = useRoute()
 
-const user = ref<IUserInfo>()
+const user = ref<UserData>()
 const activeTab = ref('activity')
 
 // 获得路由中的用户ID,判断是否是数字

@@ -1,3 +1,17 @@
+<script setup lang="ts">
+const prop = defineProps({
+  user: {
+    type: Object,
+    default: () => {
+      return {
+        username: '',
+        avatar: '',
+      }
+    },
+  },
+})
+</script>
+
 <template>
   <el-card style="margin-bottom: 20px">
     <!-- <div slot="header" class="clearfix">
@@ -10,19 +24,18 @@
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb
-          :image="user.avatar"
-          :height="'100px'"
-          :width="'100px'"
-          :hoverable="false"
-        >
+        <pan-thumb :image="user.avatar" height="100px" width="100px" :hoverable="false">
           <div>你好</div>
           {{ user.username }}
         </pan-thumb>
       </div>
       <div class="box-center">
-        <div class="user-name text-center">{{ user.username }}</div>
-        <div class="user-role text-center text-muted">UID:{{ user.id }}</div>
+        <div class="user-name text-center">
+          {{ user.username }}
+        </div>
+        <div class="user-role text-center text-muted">
+          UID:{{ user.id }}
+        </div>
       </div>
     </div>
 
@@ -64,20 +77,6 @@
     </div>
   </el-card>
 </template>
-
-<script setup lang="ts">
-const prop = defineProps({
-  user: {
-    type: Object,
-    default: () => {
-      return {
-        username: "",
-        avatar: "",
-      };
-    },
-  },
-});
-</script>
 
 <style lang="scss" scoped>
 .box-center {
