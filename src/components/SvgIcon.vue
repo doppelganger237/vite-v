@@ -42,12 +42,4 @@ export default defineComponent({
   margin-right: 12px;
   position: relative;
 }
-
-.svg-icon {
-  width: 1em;
-  height: 1em;
-  position: relative;
-  fill: currentColor;
-  vertical-align: -2px;
-}
 </style>

@@ -2,6 +2,7 @@
 import Cookies from 'js-cookie'
 import { decrypt, encrypt } from '@/utils/jsencrypt' // rememberMe-password加密
 const loading = ref(false)
+const { t } = useI18n()
 
 const router = useRouter()
 const loginForm = reactive({
@@ -13,13 +14,13 @@ const loginForm = reactive({
 const userStore = useUserStore()
 
 const rules = {
-  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+  username: [{ required: true, message: t('login.rules.username'), trigger: 'blur' }],
+  password: [{ required: true, message: t('login.rules.password'), trigger: 'blur' }],
 }
 const loginRef = ref()
 const redirect = ref('/')
 function submitForm() {
-  loginRef.value.validate((valid) => {
+  loginRef.value.validate((valid: boolean) => {
     if (valid) {
       loading.value = true
       if (loginForm.rememberme) {
@@ -67,7 +68,7 @@ getCookie()
         用户登录
       </h3>
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" placeholder="用户名">
+        <el-input v-model="loginForm.username" type="text" :placeholder="t('username')">
           <template #prepend>
             <el-icon>
               <i-ep-user />
@@ -76,7 +77,8 @@ getCookie()
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="loginForm.password" type="password" placeholder="密码" show-password @keyup.enter="submitForm">
+        <el-input v-model="loginForm.password" type="password" :placeholder="t('password')" show-password
+          @keyup.enter="submitForm">
           <template #prepend>
             <el-icon>
               <i-ep-lock />
@@ -90,8 +92,8 @@ getCookie()
       </el-checkbox>
       <el-form-item style="width: 100%">
         <el-button size="default" type="primary" style="width: 100%" :loading="loading" @click="submitForm">
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
+          <span v-if="!loading">{{ t('login.button') }}</span>
+          <span v-else>{{ t('login.button-loading') }}</span>
         </el-button>
       </el-form-item>
     </el-form>

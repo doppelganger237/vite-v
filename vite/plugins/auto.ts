@@ -6,34 +6,44 @@ import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import {
+/* import {
   ElementPlusResolve,
   createStyleImportPlugin,
-} from 'vite-plugin-style-import'
+} from 'vite-plugin-style-import' */
+// import ElementPlus from 'unplugin-element-plus/vite'
 
 import IconsResolver from 'unplugin-icons/resolver'
 import type { Plugin } from 'vite'
 
 export default function autoimport(): Plugin[] {
   return [
-    createStyleImportPlugin({
-      resolves: [
-        ElementPlusResolve(),
-      ],
-    }),
+    // createStyleImportPlugin({
+    //   resolves: [
+    //     ElementPlusResolve(),
+    //   ],
+    // }),
+    // ElementPlus({
+    //   // options
+    // }),
     AutoImport({
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/, /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
       dts: './auto-imports.d.ts',
       imports: [
         // presets
         'vue',
         'vue-router',
         'pinia',
+        'vue-i18n',
         {
           '@/stores/app': ['useAppStore'],
           '@/stores/user': ['useUserStore'],
           '@/stores/permission': ['usePermissionStore'],
         },
-        { 'element-plus/es': ['ElMessage'] },
+        { 'element-plus/es': ['ElMessage'] }, // 自动导入BUG
       ],
       resolvers: [
         ElementPlusResolver({
@@ -46,7 +56,7 @@ export default function autoimport(): Plugin[] {
       ],
     }),
     Components({
-      dts: 'src/components.d.ts',
+      dts: './components.d.ts',
       resolvers: [
         IconsResolver({
         }),

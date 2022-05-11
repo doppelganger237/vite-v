@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useWindowSize } from '@vueuse/core'
 import { onBeforeRouteLeave } from 'vue-router'
-// 不区分大小写,这玩意跟下面的状态重复了
-import { AppMain, Navbar, Sidebar as SidebarComponent } from './components'
+
+import LayoutSideBar from './sider/index.vue'
+import LayoutHeader from './header/index.vue'
+import LayoutContent from './content/index.vue'
 
 const appStore = useAppStore()
 
@@ -19,7 +21,7 @@ function handleClickOutside() {
   appStore.closeSideBar({ withoutAnimation: false })
 }
 
-// 为什么切换路由的时候windowssize没有改变,只能这样关闭菜单了
+// 切换路由的时候关闭移动端打开的菜单
 onBeforeRouteLeave((to, from) => {
   if (device.value === 'mobile' && sidebar.value.opened)
     appStore.closeSideBar({ withoutAnimation: false })
@@ -42,12 +44,12 @@ watchEffect(() => {
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device === 'mobile' && sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <SidebarComponent v-if="!sidebar.hide" class="sidebar-container" />
+    <LayoutSideBar v-if="!sidebar.hide" class="sidebar-container" />
     <div class="main-container">
       <div :class="{ 'fixed-header': false }">
-        <navbar />
+        <LayoutHeader />
       </div>
-      <app-main />
+      <LayoutContent />
     </div>
   </div>
 </template>

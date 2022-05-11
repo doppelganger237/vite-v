@@ -74,6 +74,11 @@ const prop = defineProps({
           </div>
         </div>
       </div>
+      <div class="text-center">
+        <el-button class="text-2xl p-5 antialiased text-shadow">
+          联系我
+        </el-button>
+      </div>
     </div>
   </el-card>
 </template>

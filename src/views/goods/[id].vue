@@ -13,20 +13,10 @@ const appStore = useAppStore()
 const { device } = storeToRefs(appStore)
 watchEffect(() => {
   if (device.value === 'mobile')
-
-    bannerHeight.value = 400
-
+    bannerHeight.value = 325
   else
-
     bannerHeight.value = 500
 })
-
-// const { width } = useWindowSize()
-// const imgRef = ref()
-
-// onMounted(() => {
-//   console.log(imgRef.value[0].height)
-// })
 </script>
 
 <template>
@@ -41,7 +31,7 @@ watchEffect(() => {
       </div>
     </el-col>
     <el-col :xs="24" :span="14" class="goods-right">
-      <div class="goods-info" style="height:500px">
+      <div class="goods-info">
         <h1 class="goods-name">
           商品名称
         </h1>
@@ -51,6 +41,7 @@ watchEffect(() => {
         </p>
 
         <p class="create-time">
+          <i-carbon-calendar />
           创建时间:2022年5月7日
         </p>
 
@@ -96,12 +87,15 @@ meta:
   font-size: 30px;
 }
 
-.goods-info {}
+.goods-info {
+
+  display: flex;
+  flex-direction: column;
+}
 
 .goods-right {
 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
 }
 </style>

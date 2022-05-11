@@ -1,0 +1,8 @@
+login:
+  button: Login
+  button-loading: Loging...
+  rules:
+    password: Please enter your password
+    username: Please enter your username
+password: password
+username: username

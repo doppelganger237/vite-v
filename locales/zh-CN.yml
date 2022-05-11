@@ -1,0 +1,8 @@
+login:
+  button: 登录
+  button-loading: 登录中...
+  rules:
+    password: 请输入密码
+    username: 请输入用户名
+password: 密码
+username: 用户名

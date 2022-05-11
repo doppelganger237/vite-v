@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { addParcel, deleteParcel, getHisParcels } from '@/api/parcels'
+const { t } = useI18n()
 const tableData = ref([])
 const total = ref(0)
 const loading = ref(true)
@@ -30,7 +31,7 @@ function onSubmit() {
   formRef.value.validate((valid) => {
     if (valid) {
       addParcel(form.value).then(() => {
-        ElMessage.success('添加包裹成功!')
+        ElMessage.success(t('parcel.add.succeeded'))
         reset()
         getList()
       })
@@ -100,7 +101,7 @@ getList()
       <el-card class="card-box">
         <template #header>
           <div class="clearfix">
-            <span>我的包裹</span>
+            <span>{{ t('parcel.mine') }}</span>
           </div>
         </template>
         <div class="body">
@@ -130,8 +131,10 @@ getList()
               </template>
             </el-table-column>
           </el-table>
-          <pagination v-show="total > 0" v-model:page="queryParams.current" v-model:limit="queryParams.size"
-            :total="total" @pagination="getList" />
+          <pagination
+            v-show="total > 0" v-model:page="queryParams.current" v-model:limit="queryParams.size"
+            :total="total" @pagination="getList"
+          />
         </div>
       </el-card>
     </el-col>

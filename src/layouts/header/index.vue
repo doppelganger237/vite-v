@@ -1,4 +1,6 @@
-<script setup>
+<script setup lang="ts">
+import { Breadcrumb, FullScreen, Hamburger } from './components'
+
 const appStore = useAppStore()
 const userStore = useUserStore()
 
@@ -36,13 +38,13 @@ function logout() {
 
 <template>
   <div class="navbar">
-    <hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container"
+    <Hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container"
       @toggleClick="toggleSideBar" />
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
+    <Breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
       <template v-if="appStore.device !== 'mobile'">
-        <Screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <FullScreen id="screenfull" class="right-menu-item hover-effect" />
 
         <el-tooltip content="通知" effect="dark" placement="bottom">
           <div class="right-menu-item hover-effect">

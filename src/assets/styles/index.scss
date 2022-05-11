@@ -57,5 +57,14 @@ div:focus {
 
 //main-container全局样式
 .app-container {
+  flex: 1;
   padding: 20px;
+}
+
+.svg-icon {
+  width: 1em;
+  height: 1em;
+  position: relative;
+  fill: currentColor;
+  vertical-align: -.125em;
 }

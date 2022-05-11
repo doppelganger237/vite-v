@@ -4,6 +4,8 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils/auth'
 
+import 'element-plus/theme-chalk/el-message.css' // 自动导入样式没有加载进来
+
 export interface IResponse<T = any> {
   code: number
   data: T
@@ -20,7 +22,7 @@ service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const isToken = (config.headers || {}).isToken === false
     if (getToken() && !isToken)
-      config.headers.Authorization = `Bearer ${getToken()}` // 让每个请求携带自定义token 请根据实际情况自行修改
+      config.headers!.Authorization = `Bearer ${getToken()}` // 让每个请求携带自定义token 请根据实际情况自行修改
 
     return config
   },
