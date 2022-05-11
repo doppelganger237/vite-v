@@ -43,6 +43,14 @@ function logout() {
     <div class="right-menu">
       <template v-if="appStore.device !== 'mobile'">
         <Screenfull id="screenfull" class="right-menu-item hover-effect" />
+
+        <el-tooltip content="通知" effect="dark" placement="bottom">
+          <div class="right-menu-item hover-effect">
+            <el-badge is-dot class="notification-badge">
+              <i-carbon-notification />
+            </el-badge>
+          </div>
+        </el-tooltip>
       </template>
 
       <div class="avatar-container">
@@ -134,6 +142,10 @@ function logout() {
           background: rgba(0, 0, 0, 0.025);
         }
       }
+    }
+
+    .notification-badge {
+      line-height: 1;
     }
 
     .avatar-container {

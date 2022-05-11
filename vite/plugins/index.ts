@@ -2,17 +2,16 @@ import vue from '@vitejs/plugin-vue'
 
 import Icons from 'unplugin-icons/vite'
 import createSvgIcon from './svg-icon'
-import auto from './auto.ts'
+import auto from './auto.js'
 
 export default function createVitePlugins(viteEnv, isBuild = false) {
   const plugins = [vue()]
 
   // 各种自动导入
-  plugins.push(auto())
+  plugins.push(...auto())
 
   plugins.push(
     Icons({
-      autoInstall: true,
       scale: 1, // Scale of icons against 1em
     }),
   )

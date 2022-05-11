@@ -12,8 +12,9 @@ import {
 } from 'vite-plugin-style-import'
 
 import IconsResolver from 'unplugin-icons/resolver'
+import type { Plugin } from 'vite'
 
-export default function autoimport() {
+export default function autoimport(): Plugin[] {
   return [
     createStyleImportPlugin({
       resolves: [
@@ -48,7 +49,6 @@ export default function autoimport() {
       dts: 'src/components.d.ts',
       resolvers: [
         IconsResolver({
-          enabledCollections: ['ep'],
         }),
         ElementPlusResolver({
           importStyle: 'sass',

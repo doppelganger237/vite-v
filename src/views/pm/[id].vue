@@ -103,4 +103,8 @@ init()
   align-items: center;
   display: flex;
 }
+
+>>>.app-container {
+  padding: 0px
+}
 </style>

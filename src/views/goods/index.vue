@@ -21,7 +21,7 @@ const mockData = [
   {
     id: 3,
     name: '老八秘制小🍔包',
-    description: '好吃的小憨包',
+    description: '好吃的小憨包好吃的小憨包好吃的小憨包好吃的小憨包好吃的小憨包',
     createTime: '2022-5-7',
     price: 12.5,
   },
@@ -64,15 +64,14 @@ function onClick(item: any) {
 <template>
   <el-row :gutter="10">
     <el-col v-for="item in mockData" :key="item.id" :xs="24" :sm="12" :md="8" :lg="4">
-      <el-card :body-style="{ padding: '10px' }" shadow="hover" style="margin-bottom: 10px;">
+      <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;">
         <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
           class="image" @click="onClick(item)">
         <div style="padding: 14px">
           <span class="name" @click="onClick(item)">{{ item.name }}</span>
-          <span class="description">
+          <p class="description">
             {{ item.description }}
-
-          </span>
+          </p>
           <div class="bottom">
             <span class="price">14.99</span>
             <time class="time">
@@ -112,10 +111,9 @@ meta:
   font-size: smaller;
 
   margin-top: 13px;
-  line-height: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .bottom {

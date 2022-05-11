@@ -3,7 +3,6 @@ import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { ElMessage } from 'element-plus'
 import { getToken } from '@/utils/auth'
-import cache from '@/plugins/cache'
 
 export interface IResponse<T = any> {
   code: number

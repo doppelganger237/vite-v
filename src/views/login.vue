@@ -125,9 +125,10 @@ meta:
 }
 
 .login-form {
+  opacity: 0.95;
   border-radius: 6px;
   background: #ffffff;
-  width: 400px;
+  width: 350px;
   padding: 25px 25px 5px 25px;
 
   .el-input {
@@ -163,6 +164,7 @@ meta:
 }
 
 .el-login-footer {
+  opacity: 0.8;
   height: 40px;
   line-height: 40px;
   position: fixed;
