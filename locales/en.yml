@@ -1,8 +1,13 @@
+input-placeholder: Please enter...
 login:
   button: Login
   button-loading: Loging...
   rules:
     password: Please enter your password
     username: Please enter your username
+parcel:
+  mine: My parcel
 password: password
+user:
+  center: User Center
 username: username

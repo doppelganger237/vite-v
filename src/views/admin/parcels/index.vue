@@ -40,5 +40,5 @@ getList()
 
 <route lang="yaml">
 meta:
-  title: 包裹管理
+  title: 包裹
 </route>

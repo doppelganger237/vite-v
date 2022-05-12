@@ -43,5 +43,5 @@ getList()
 
 <route lang="yaml">
 meta:
-  title: 健康打卡管理
+  title: 健康打卡
 </route>

@@ -1,8 +1,13 @@
+input-placeholder: 请输入...
 login:
   button: 登录
   button-loading: 登录中...
   rules:
     password: 请输入密码
     username: 请输入用户名
+parcel:
+  mine: 我的包裹
 password: 密码
+user:
+  center: 个人中心
 username: 用户名

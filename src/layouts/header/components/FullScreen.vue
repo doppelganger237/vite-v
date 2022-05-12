@@ -6,7 +6,8 @@ const { isFullscreen, enter, exit, toggle } = useFullscreen()
 
 <template>
   <div>
-    <svg-icon :icon-class="isFullscreen ? 'exit-fullscreen' : 'fullscreen'" @click="toggle" />
+    <!-- <svg-icon :icon-class="isFullscreen ? 'exit-fullscreen' : 'fullscreen'" @click="toggle" /> -->
+    <div :i="!isFullscreen ? 'mdi-fullscreen' : 'mdi-fullscreen-exit'" @click="toggle" />
   </div>
 </template>
 

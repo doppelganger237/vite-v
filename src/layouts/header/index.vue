@@ -1,84 +1,26 @@
 <script setup lang="ts">
 import { Breadcrumb, FullScreen, Hamburger } from './components'
-
+import LocalePicker from './components/LocalePicker.vue'
+import UserAvatar from './components/UserAvatar.vue'
+import Notification from './components/Notification.vue'
 const appStore = useAppStore()
-const userStore = useUserStore()
-
-const { avatar, roles, id } = storeToRefs(userStore)
-const profileUrl = `/users/${id.value}`
-
-function toggleSideBar() {
-  appStore.toggleSideBar()
-}
-
-function handleCommand(command) {
-  switch (command) {
-    case 'logout':
-      logout()
-      break
-    default:
-      break
-  }
-}
-
-function logout() {
-  ElMessageBox.confirm('确定注销吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning',
-  })
-    .then(() => {
-      userStore.logout().then(() => {
-        location.href = '/'
-      })
-    })
-    .catch(() => { })
-}
 </script>
 
 <template>
   <div class="navbar">
     <Hamburger id="hamburger-container" :is-active="appStore.sidebar.opened" class="hamburger-container"
-      @toggleClick="toggleSideBar" />
+      @toggleClick="appStore.toggleSideBar" />
     <Breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
 
     <div class="right-menu">
-      <template v-if="appStore.device !== 'mobile'">
-        <FullScreen id="screenfull" class="right-menu-item hover-effect" />
+      <!-- 手机端不显示全屏按钮 -->
+      <FullScreen v-if="appStore.device !== 'mobile'" id="screenfull" class="right-menu-item" />
 
-        <el-tooltip content="通知" effect="dark" placement="bottom">
-          <div class="right-menu-item hover-effect">
-            <el-badge is-dot class="notification-badge">
-              <i-carbon-notification />
-            </el-badge>
-          </div>
-        </el-tooltip>
-      </template>
+      <Notification class="right-menu-item" />
 
-      <div class="avatar-container">
-        <el-dropdown class="right-menu-item hover-effect" trigger="click" @command="handleCommand">
-          <div class="avatar-wrapper">
-            <img :src="avatar" class="user-avatar">
-            <el-icon>
-              <i-ep-caret-bottom />
-            </el-icon>
-          </div>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <router-link :to="profileUrl">
-                <el-dropdown-item>个人中心</el-dropdown-item>
-              </router-link>
+      <LocalePicker class="right-menu-item" />
 
-              <el-dropdown-item v-if="roles.includes('admin')" command="adminMode">
-                <span>管理员模式</span>
-              </el-dropdown-item>
-              <el-dropdown-item divided command="logout">
-                <span>退出登录</span>
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-      </div>
+      <UserAvatar class="right-menu-item" />
     </div>
   </div>
 </template>
@@ -120,8 +62,6 @@ function logout() {
 
   .right-menu {
     float: right;
-    height: 100%;
-    line-height: 50px;
     display: flex;
 
     &:focus {
@@ -129,50 +69,26 @@ function logout() {
     }
 
     .right-menu-item {
-      display: inline-block;
+      display: flex;
+      align-items: center;
       padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
+      font-size: 1.2em;
       color: #5a5e66;
-      vertical-align: text-bottom;
 
-      &.hover-effect {
-        cursor: pointer;
+      cursor: pointer;
+
+      &:hover {
         transition: background 0.3s;
 
-        &:hover {
-          background: rgba(0, 0, 0, 0.025);
-        }
+        background-color: rgba(8, 4, 4, 0.025);
+
       }
     }
 
-    .notification-badge {
-      line-height: 1;
-    }
+    // .notification-badge {
+    //   line-height: 1;
+    // }
 
-    .avatar-container {
-      margin-right: 40px;
-
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
-
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-
-        i {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-      }
-    }
   }
 }
 </style>

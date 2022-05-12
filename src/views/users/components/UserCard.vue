@@ -19,7 +19,7 @@ const prop = defineProps({
     </div> -->
 
     <template #header>
-      <span>About me</span>
+      <span>用户信息</span>
     </template>
 
     <div class="user-profile">
@@ -42,11 +42,11 @@ const prop = defineProps({
     <div class="user-bio">
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header">
-          <svg-icon icon-class="education" /><span>Education</span>
+          <svg-icon icon-class="education" /><span>个人简介</span>
         </div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
+            这个人很懒,什么都没有写...
           </div>
         </div>
       </div>

@@ -87,7 +87,7 @@ function onClick(item: any) {
 
 <route lang="yaml">
 meta:
-  title: 二手商品
+  title: 市场列表
 </route>
 
 <style lang="scss" scoped>

@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
               .generateRoutes(router)
               .then((accessRoutes) => {
                 // 根据roles权限生成可访问的路由表
-                // console.log(accessRoutes);
+                console.log(router.options.routes)
                 // TODO, 路由有重复, 代码代优化
                 // accessRoutes.forEach((route) => {
                 //   router.addRoute(route) // 动态添加可访问路由表
