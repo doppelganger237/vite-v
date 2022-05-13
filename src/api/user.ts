@@ -1,23 +1,8 @@
 import request from '@/utils/request'
 
-export function login(username: string, password: string) {
-  const data = {
-    username,
-    password,
-  }
-  return request({
-    url: '/login',
-    method: 'post',
-    data,
-  })
-}
+export const login = (params: LoginParams) => request.post<string>('/login', params)
 
-export function getInfo() {
-  return request({
-    url: '/getInfo',
-    method: 'get',
-  })
-}
+export const getInfo = () => request.get<LoginUserInfo>('/getInfo')
 
 export function logout() {
   return request({
@@ -34,8 +19,5 @@ export const getRouters = () => {
   })
 }
 
-export function getUserById(id: number) {
-  return request.get<void, UserData>(
-    `/users/${id}`,
-  )
-}
+export const getUserById = (id: number) => request.get<UserInfo>(`/users/${id}`)
+

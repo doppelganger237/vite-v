@@ -1,15 +1,6 @@
 <script setup lang="ts">
-const prop = defineProps({
-  user: {
-    type: Object,
-    default: () => {
-      return {
-        username: '',
-        avatar: '',
-      }
-    },
-  },
-})
+const prop = defineProps<{ user: UserInfo }>()
+const router = useRouter()
 </script>
 
 <template>
@@ -75,7 +66,7 @@ const prop = defineProps({
         </div>
       </div>
       <div class="text-center">
-        <el-button class="text-2xl p-5 antialiased text-shadow">
+        <el-button class="text-2xl p-5 antialiased text-shadow" @click="router.push({ path: `/pm/${user.id}` })">
           联系我
         </el-button>
       </div>

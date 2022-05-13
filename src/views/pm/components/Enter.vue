@@ -4,7 +4,7 @@ const textarea = ref('')
 const placeholder = ref('请输入内容...')
 
 function handleSend() {
-  emit('send', textarea)
+  emit('send', textarea.value)
   textarea.value = ''
 }
 </script>

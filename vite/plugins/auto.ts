@@ -31,7 +31,7 @@ export default function autoimport(): Plugin[] {
         /\.vue$/, /\.vue\?vue/, // .vue
         /\.md$/, // .md
       ],
-      dts: './auto-imports.d.ts',
+      dts: 'src/auto-imports.d.ts',
       imports: [
         // presets
         'vue',
@@ -56,7 +56,7 @@ export default function autoimport(): Plugin[] {
       ],
     }),
     Components({
-      dts: './components.d.ts',
+      dts: 'src/components.d.ts',
       resolvers: [
         IconsResolver({
         }),

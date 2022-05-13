@@ -9,8 +9,8 @@ const queryParams = reactive({
   size: 10,
 })
 
-const getList = () => {
-  getParcelList(queryParams).then((res) => {
+const getList = async () => {
+  await getParcelList(queryParams).then((res) => {
     standardizeForm(res.rows).then(() => {
       tableData.value = res.rows
     })

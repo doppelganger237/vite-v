@@ -1,13 +1,10 @@
+import type { HealthReportModel } from './model/healthreportModel'
+import type { BasicFetchResult, BasicPageParams } from './model/baseModel'
 import request from '@/utils/request'
 
 const base_url = '/healthreports'
 
-export function getAllReports(query: { current: number; size: number }) {
-  return request({
-    url: `${base_url}/all?current=${query.current}&size=${query.size}`,
-    method: 'get',
-  })
-}
+export const getAllReports = (query: BasicPageParams) => request.get<BasicFetchResult<HealthReportModel>>(`${base_url}/all?current=${query.current}&size=${query.size}`)
 
 export function healthReport() {
   return request({
@@ -29,3 +26,5 @@ export function getReports() {
     method: 'get',
   })
 }
+
+export const deleteReport = (id: number) => request.delete(`${base_url}/${id}`)

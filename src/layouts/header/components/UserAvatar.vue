@@ -1,8 +1,10 @@
 <script setup lang="ts">
 const { t } = useI18n()
 const userStore = useUserStore()
-const { avatar, roles, id } = storeToRefs(userStore)
-const profileUrl = `/users/${id.value}`
+
+const { userInfo, roles } = storeToRefs(userStore)
+
+const profileUrl = computed(() => `/users/${userInfo.value?.id}`)
 
 function handleCommand(command: string) {
   switch (command) {
@@ -32,7 +34,7 @@ function logout() {
 <template>
   <el-dropdown class="avatar-container" @command="handleCommand">
     <div class="avatar-wrapper">
-      <img :src="avatar" class="user-avatar">
+      <img :src="userInfo?.avatar" class="user-avatar">
     </div>
     <template #dropdown>
       <el-dropdown-menu>

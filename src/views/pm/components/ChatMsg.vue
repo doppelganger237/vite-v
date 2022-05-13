@@ -1,8 +1,8 @@
 <script setup lang="ts">
 interface Props {
   msgList: any
-  toUser: UserData
-  user: LoginUser
+  toUser: UserInfo
+  user: UserInfo
 }
 const props = defineProps<Props>()
 </script>

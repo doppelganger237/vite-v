@@ -8,32 +8,20 @@ import { getUserById } from '@/api/user'
 
 const router = useRouter()
 const route = useRoute()
-
-const user = ref<UserData>()
+const loginUser = storeToRefs(useUserStore())
+const user = ref<UserInfo>()
 const activeTab = ref('activity')
 
 // 获得路由中的用户ID,判断是否是数字
-const userId = Number(route.params.id)
-if (!isNaN(userId)) {
-  getUserById(userId).then((data) => {
+const userId = ref<number>()
+userId.value = Number(route.params.id)
+if (!isNaN(userId.value)) {
+  getUserById(userId.value).then((data) => {
     user.value = data
   })
 }
 
 else { router.push({ name: 'all' }) }
-
-// TODO数据传递不够优雅
-// const user = reactive({ username: "", avatar: "", id: 0 });
-// const { username, avatar, id } = storeToRefs(userStore);
-// user.username = username.value;
-// user.avatar = avatar.value;
-// user.id = id.value;
-
-// const user = computed(() => ({
-//   username: userStore.username,
-//   avatar: userStore.avatar,
-//   id: userStore.id,
-// }))
 </script>
 
 <template>
@@ -46,13 +34,13 @@ else { router.push({ name: 'all' }) }
       <el-col :span="18" :xs="24">
         <el-card>
           <el-tabs v-model="activeTab">
-            <el-tab-pane label="Activity" name="activity">
+            <el-tab-pane label="动态" name="activity">
               <activity />
             </el-tab-pane>
-            <el-tab-pane label="Timeline" name="timeline">
+            <el-tab-pane label="时间线" name="timeline">
               <timeline />
             </el-tab-pane>
-            <el-tab-pane label="Account" name="account">
+            <el-tab-pane v-if="userId === loginUser.userInfo.value?.id" label="账号" name="account">
               <account :user="user" />
             </el-tab-pane>
           </el-tabs>

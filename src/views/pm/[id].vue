@@ -1,73 +1,53 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
+import { useWebSocket } from '@vueuse/core'
 import Enter from './components/Enter.vue'
 import ChatMsg from './components/ChatMsg.vue'
-
 import { getUserById } from '@/api/user'
-
-interface IMessage {
-  id?: number
-  fromId: number
-  toId: number
-  context: string
-  createTime?: Object
-}
 
 const props = defineProps({
   id: String,
 })
+
 const userStore = useUserStore()
 
-const socket = ref<WebSocket>()
 // 后端ws的连接地址
 const ws = import.meta.env.VITE_APP_WS
-// 接收消息的用户
-const user = ref<LoginUser>()
+// 当前用户
+const user = ref<UserInfo>()
+user.value = userStore.userInfo!
+const toUser = ref<UserInfo>()
 
-// 这也能行???
-user.value = userStore
+const { status, data, send, open, close } = useWebSocket(`${ws}/${userStore.token}`)
 
-const toUser = ref<UserData>()
-
-const msgData = user.value.msgData
-
-function sendMsg(msg: IMessage) {
-  socket.value?.send(JSON.stringify(msg))
-  userStore.addMsg({ id: 1, context: msg.context, from_id: msg.fromId, to_id: msg.toId })
-}
-
-function enter(m: Ref<string>) {
-  if (toUser && toUser.value)
-    sendMsg({ fromId: userStore.id, toId: toUser.value.id, context: m.value })
-}
+const msgData = userStore.msgData
 
 // 初始化用户聊天和Socket
-const init = async () => {
-  if (props.id)
-    toUser.value = await getUserById(parseInt(props.id))
+if (props.id)
+  getUserById(parseInt(props.id)).then(u => toUser.value = u)
 
-  if (typeof WebSocket === 'undefined') {
-    ElNotification.error('您的浏览器不支持websocket')
+watchEffect(() => {
+  if (data.value) {
+    const res: IMessage = JSON.parse(data.value)
+    userStore.addMsg(res)
   }
-  else {
-    socket.value = new WebSocket(`${ws}/${userStore.token}`)
-    socket.value.onopen = () => {
-      // console.log('socket opened')
-    }
-    socket.value.onmessage = (msg) => {
-      const data = JSON.parse(msg.data)
-      userStore.addMsg({ id: 1, context: data.context, from_id: data.fromId, to_id: data.toId })
-    }
-  }
+})
+
+function sendMsg(msg: IMessage) {
+  send(JSON.stringify(msg))
+  userStore.addMsg(msg)
 }
-init()
+
+function enter(m: string) {
+  if (user.value && toUser.value)
+    sendMsg({ fromId: user.value.id, toId: toUser.value.id, context: m })
+}
 </script>
 
 <template>
   <el-container class="pm-container">
     <el-container>
       <el-header class="pm-header">
-        聊天对象名称
+        {{ toUser?.username }}
       </el-header>
       <el-main class="pm-main">
         <ChatMsg v-if="toUser && user" :msg-list="msgData" :user="user" :to-user="toUser" />

@@ -16,7 +16,7 @@ function getBreadcrumb() {
   )
 }
 function isDashboard(route) {
-  console.log(route)
+  // console.log(route)
   const name = route && route.name
   if (!name)
     return false
@@ -45,7 +45,7 @@ getBreadcrumb()
 <template>
   <el-breadcrumb class="app-breadcrumb" separator="/">
     <transition-group name="breadcrumb">
-      <el-breadcrumb-item v-for="(item, index) in levelList" :key="item.path">
+      <el-breadcrumb-item v-for="(item, index) in levelList" :key="item.path + item.name">
         <span v-if="item.redirect === 'noRedirect' || index == levelList.length - 1" class="no-redirect">{{
             item.meta.title
         }}</span>

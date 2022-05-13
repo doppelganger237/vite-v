@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { getAllReports } from '@/api/healthreports'
+import { deleteReport, getAllReports } from '@/api/healthreports'
+import type { HealthReportModel } from '@/api/model/healthreportModel'
 
-const tableData = ref([])
+const tableData = ref<HealthReportModel[]>()
 
 const queryParams = reactive({
   current: 1,
@@ -19,6 +20,18 @@ const getList = () => {
     total.value = res.total
     loading.value = false
   })
+}
+
+function handleDelete(i, r) {
+  ElMessageBox.confirm('确定删除吗？', '警告', {
+    type: 'warning',
+  })
+    .then(() => {
+      deleteReport(r.id)
+    }).then(() => {
+      ElMessage.success('删除包裹成功!')
+      getList()
+    })
 }
 
 getList()
